@@ -1,0 +1,52 @@
+*.py[co]
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+
+#Translations
+*.mo
+
+#Mr Developer
+.mr.developer.cfg
+
+# IDEA (PyCharm)
+.idea/
+
+NaPTAN.xml
+oxfordshire.osm
+oxpoints.json
+
+# SASS cache created by COMPASS
+.sass-cache/
+
+# Following files are created using 'make static'
+moxie/core/static/css/
+moxie/core/static/js/foundation.js
+moxie/core/static/js/moxie.js
+# All minified js
+*.min.js
+
+.DS_Store
+
+# Symbolset files
+moxie/core/static/webfonts/
+
+# Documentation build
+docs/build/
