@@ -1,5 +1,5 @@
 from moxie.core.service import Service
-from moxie.auth.oauth import OAuth1Service
+from moxie.oauth.services import OAuth1Service
 
 
 class CoursesService(Service):
