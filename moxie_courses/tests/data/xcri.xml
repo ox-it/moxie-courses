@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xcri:catalog xmlns:oxcap="http://purl.ox.ac.uk/oxcap/ns/" generated="2012-11-12T10:22:26.643853+00:00" xmlns:xcri="http://xcri.org/profiles/1.2/catalog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mlo="http://purl.org/net/mlo" xsi:schemaLocation="http://www.w3.org/2003/01/geo/wgs84_pos http://xcri-dev.conted.ox.ac.uk/geo.xsd http://xcri.co.uk http://www.xcri.co.uk/bindings/coursedataprogramme.xsd http://xcri.org/profiles/1.2/catalog http://www.xcri.co.uk/bindings/xcri_cap_1_2.xsd http://xcri.org/profiles/1.2/catalog/terms http://www.xcri.co.uk/bindings/xcri_cap_terms_1_2.xsd" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <dc:identifier>https://data.ox.ac.uk/id/courses/cobomo-catalogue</dc:identifier>
+    <xcri:provider>
+        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:division">4D</dc:identifier>
+        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oucs">mpls</dc:identifier>
+        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:twoThree">D4</dc:identifier>
+        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:department">4D00</dc:identifier>
+        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">23232639</dc:identifier>
+        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/23232639</dc:identifier>
+        <dc:title>Mathematical, Physical and Life Sciences</dc:title>
+        <mlo:url>http://www.mpls.ox.ac.uk/</mlo:url>
+        <mlo:location>
+            <mlo:address>9 Parks Road</mlo:address>
+            <mlo:address>Oxford</mlo:address>
+            <mlo:postcode>OX1 3PD</mlo:postcode>
+        </mlo:location>
+        <xcri:course>
+            <dc:identifier>4D00D40013</dc:identifier>
+            <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/5998</dc:identifier>
+            <dc:identifier>5998</dc:identifier>
+            <mlo:url>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40013</mlo:url>
+            <dc:description>This session will provide a general introduction to ethical issues in research, considering the decisions to be made in its planning, conduct, and publication. Through lecture, discussion, and case studies we will aim to develop a systematic understanding of issues by locating them within an ethical framework. The aim of the session is to encourage participants to articulate and reflect on the ethical concerns present in the course of their own research, and consider how best to address them.</dc:description>
+            <xcri:regulations>University of Oxford members</xcri:regulations>
+            <dc:subject>Graduate Training</dc:subject>
+            <dc:subject xmlns:ns="https://data.ox.ac.uk/id/ox-rm/" xsi:type="ns:notation" identifier="ET">Ethics</dc:subject>
+            <xcri:presentation>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/14843</dc:identifier>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/14843</dc:identifier>
+                <dc:identifier>14843</dc:identifier>
+                <mlo:start>To be confirmed</mlo:start>
+                <xcri:end>To be confirmed</xcri:end>
+                <xcri:applyFrom dtf="2011-08-10">Wednesday 10th of August 2011</xcri:applyFrom>
+                <xcri:applyUntil dtf="2011-11-21">Monday 21st of November 2011</xcri:applyUntil>
+                <mlo:places>30</mlo:places>
+                <xcri:applyTo>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40013</xcri:applyTo>
+                <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
+                <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
+                <xcri:venue>
+                    <xcri:provider>
+                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">52999815</dc:identifier>
+                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/52999815</dc:identifier>
+                        <dc:title>Centenary Room</dc:title>
+                    </xcri:provider>
+                </xcri:venue>
+                <oxcap:bookingEndpoint>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40013</oxcap:bookingEndpoint>
+            </xcri:presentation>
+            <xcri:presentation>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/19866</dc:identifier>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/19866</dc:identifier>
+                <dc:identifier>19866</dc:identifier>
+                <mlo:start dtf="2012-11-20">Tuesday 20th of November 2012</mlo:start>
+                <xcri:end dtf="2012-11-20">Tuesday 20th of November 2012</xcri:end>
+                <xcri:applyFrom dtf="2012-09-24">Monday 24th of September 2012</xcri:applyFrom>
+                <xcri:applyUntil dtf="2012-11-19">Monday 19th of November 2012</xcri:applyUntil>
+                <mlo:places>30</mlo:places>
+                <xcri:applyTo>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40013</xcri:applyTo>
+                <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
+                <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
+                <xcri:venue>
+                    <xcri:provider>
+                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">52999815</dc:identifier>
+                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/52999815</dc:identifier>
+                        <dc:title>Centenary Room</dc:title>
+                    </xcri:provider>
+                </xcri:venue>
+                <oxcap:bookingEndpoint>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40013</oxcap:bookingEndpoint>
+            </xcri:presentation>
+            <xcri:presentation>
+                <dc:identifier>9842</dc:identifier>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/9842</dc:identifier>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/9842</dc:identifier>
+                <mlo:start>To be confirmed</mlo:start>
+                <xcri:end>To be confirmed</xcri:end>
+                <xcri:applyFrom dtf="2010-10-04">Monday 4th of October 2010</xcri:applyFrom>
+                <xcri:applyUntil dtf="2010-11-15">Monday 15th of November 2010</xcri:applyUntil>
+                <mlo:places>30</mlo:places>
+                <xcri:applyTo>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40013</xcri:applyTo>
+                <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
+                <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
+                <xcri:venue>
+                    <xcri:provider>
+                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">23232549</dc:identifier>
+                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/23232549</dc:identifier>
+                        <dc:title>Wolfson Seminar Room</dc:title>
+                    </xcri:provider>
+                </xcri:venue>
+                <oxcap:bookingEndpoint>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40013</oxcap:bookingEndpoint>
+            </xcri:presentation>
+        </xcri:course>
+        <xcri:course>
+            <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/5995</dc:identifier>
+            <dc:identifier>4D00D40010</dc:identifier>
+            <dc:identifier>5995</dc:identifier>
+            <mlo:url>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</mlo:url>
+            <dc:description>This course addresses the special challenges final-year research students face. As deadlines approach, researchers must gain / retain control, and understand priorities if they are to meet them successfully. Topics include:
+
+                - Time planning for completion of the thesis
+                - Planning for the viva voce examination
+                - Dealing with interruptions to the finishing process (job interviews etc.)
+                - Breaking through work blocks
+                - Managing resources and contingency planning
+                - Working effectively with your supervisors
+                - Constructing a time-line with official milestones and deadlines</dc:description>
+            <xcri:regulations>University of Oxford members</xcri:regulations>
+            <dc:subject xmlns:ns="https://data.ox.ac.uk/id/ox-rm/" xsi:type="ns:notation" identifier="PE">Personal Effectiveness</dc:subject>
+            <dc:subject>Graduate Training</dc:subject>
+            <xcri:presentation>
+                <dc:identifier>19245</dc:identifier>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/19245</dc:identifier>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/19245</dc:identifier>
+                <mlo:start dtf="2012-05-11">Friday 11th of May 2012</mlo:start>
+                <xcri:end dtf="2012-05-11">Friday 11th of May 2012</xcri:end>
+                <xcri:applyFrom dtf="2012-04-10">Tuesday 10th of April 2012</xcri:applyFrom>
+                <xcri:applyUntil dtf="2012-05-10">Thursday 10th of May 2012</xcri:applyUntil>
+                <mlo:places>24</mlo:places>
+                <xcri:applyTo>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</xcri:applyTo>
+                <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
+                <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
+                <xcri:venue>
+                    <xcri:provider>
+                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">52999815</dc:identifier>
+                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/52999815</dc:identifier>
+                        <dc:title>Centenary Room</dc:title>
+                    </xcri:provider>
+                </xcri:venue>
+                <oxcap:bookingEndpoint>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</oxcap:bookingEndpoint>
+            </xcri:presentation>
+            <xcri:presentation>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/15289</dc:identifier>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/15289</dc:identifier>
+                <dc:identifier>15289</dc:identifier>
+                <mlo:start dtf="2012-02-02">Thursday 2nd of February 2012</mlo:start>
+                <xcri:end dtf="2012-02-02">Thursday 2nd of February 2012</xcri:end>
+                <xcri:applyFrom dtf="2011-11-10">Thursday 10th of November 2011</xcri:applyFrom>
+                <xcri:applyUntil dtf="2012-02-01">Wednesday 1st of February 2012</xcri:applyUntil>
+                <mlo:places>24</mlo:places>
+                <xcri:applyTo>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</xcri:applyTo>
+                <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
+                <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
+                <xcri:venue>
+                    <xcri:provider>
+                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">52999815</dc:identifier>
+                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/52999815</dc:identifier>
+                        <dc:title>Centenary Room</dc:title>
+                    </xcri:provider>
+                </xcri:venue>
+                <oxcap:bookingEndpoint>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</oxcap:bookingEndpoint>
+            </xcri:presentation>
+            <xcri:presentation>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/14842</dc:identifier>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/14842</dc:identifier>
+                <dc:identifier>14842</dc:identifier>
+                <mlo:start>To be confirmed</mlo:start>
+                <xcri:end>To be confirmed</xcri:end>
+                <xcri:applyFrom dtf="2011-08-10">Wednesday 10th of August 2011</xcri:applyFrom>
+                <xcri:applyUntil dtf="2011-10-30">Sunday 30th of October 2011</xcri:applyUntil>
+                <mlo:places>24</mlo:places>
+                <xcri:applyTo>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</xcri:applyTo>
+                <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
+                <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
+                <xcri:venue>
+                    <xcri:provider>
+                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">52999815</dc:identifier>
+                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/52999815</dc:identifier>
+                        <dc:title>Centenary Room</dc:title>
+                    </xcri:provider>
+                </xcri:venue>
+                <oxcap:bookingEndpoint>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</oxcap:bookingEndpoint>
+            </xcri:presentation>
+            <xcri:presentation>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/9839</dc:identifier>
+                <dc:identifier>9839</dc:identifier>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/9839</dc:identifier>
+                <mlo:start>To be confirmed</mlo:start>
+                <xcri:end>To be confirmed</xcri:end>
+                <xcri:applyFrom dtf="2010-10-04">Monday 4th of October 2010</xcri:applyFrom>
+                <xcri:applyUntil dtf="2010-11-01">Monday 1st of November 2010</xcri:applyUntil>
+                <mlo:places>24</mlo:places>
+                <xcri:applyTo>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</xcri:applyTo>
+                <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
+                <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
+                <xcri:venue>
+                    <xcri:provider>
+                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">52999815</dc:identifier>
+                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/52999815</dc:identifier>
+                        <dc:title>Centenary Room</dc:title>
+                    </xcri:provider>
+                </xcri:venue>
+                <oxcap:bookingEndpoint>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</oxcap:bookingEndpoint>
+            </xcri:presentation>
+            <xcri:presentation>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/19865</dc:identifier>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/19865</dc:identifier>
+                <dc:identifier>19865</dc:identifier>
+                <mlo:start dtf="2012-11-14">Wednesday 14th of November 2012</mlo:start>
+                <xcri:end dtf="2012-11-14">Wednesday 14th of November 2012</xcri:end>
+                <xcri:applyFrom dtf="2012-09-24">Monday 24th of September 2012</xcri:applyFrom>
+                <xcri:applyUntil dtf="2012-11-13">Tuesday 13th of November 2012</xcri:applyUntil>
+                <mlo:places>24</mlo:places>
+                <xcri:applyTo>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</xcri:applyTo>
+                <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
+                <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
+                <xcri:venue>
+                    <xcri:provider>
+                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">52999815</dc:identifier>
+                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/52999815</dc:identifier>
+                        <dc:title>Centenary Room</dc:title>
+                    </xcri:provider>
+                </xcri:venue>
+                <oxcap:bookingEndpoint>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</oxcap:bookingEndpoint>
+            </xcri:presentation>
+        </xcri:course>
+    </xcri:provider>
+</xcri:catalog>

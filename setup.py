@@ -11,4 +11,5 @@ setup(name='moxie-courses',
         include_package_data=True,
         setup_requires=["setuptools"],
         install_requires=[],
-        )
+        test_suite="moxie_courses.tests",
+)
