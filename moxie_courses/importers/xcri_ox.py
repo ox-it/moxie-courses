@@ -13,6 +13,7 @@ OXCAP_NS = "http://purl.ox.ac.uk/oxcap/ns/"
 MLO_NS = "http://purl.org/net/mlo"
 DC_NS = "http://purl.org/dc/elements/1.1/"
 
+# Elements to keep in
 PARSE_STRUCTURE = {
     (XCRI_NS, "provider"): [
         (DC_NS, "identifier"),
@@ -66,20 +67,6 @@ class XcriOxHandler(sax.ContentHandler):
             if data.strip():
                 self.element_data[self.tag].append(data.strip())
 
-#    def endDocument(self):
-#        item = {
-#            'provider_name': 'PROVIDER',
-#            'course_id': 'COURSE ID',
-#            'course_title': 'COURSE TITLE',
-#            'course_description': 'COURSE DESCRIPTION',
-#            'course_subjects': ['course', 'subjects'],
-#            'presentation_id': 'PRESENTATION ID',
-#            'presentation_start': 'START',
-#            'presentation_end': 'END',
-#            'presentation_location': 'LOCATION',
-#            'presentation_apply_link': 'APPLY'
-#        }
-
 
 class XcriOxImporter(object):
 
@@ -99,8 +86,7 @@ class XcriOxImporter(object):
             parser.feed(buffered_data)
             buffered_data = self.xcri_file.read(self.buffer_size)
         parser.close()
-        for presentation in self.handler.presentations:
-            self.indexer.index(presentation)
+        self.indexer.index(self.handler.presentations)
         self.indexer.commit()
 
 
