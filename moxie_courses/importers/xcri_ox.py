@@ -3,6 +3,8 @@ from collections import defaultdict
 
 from xml import sax
 
+from moxie.core.search.solr import SolrSearch
+
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +38,7 @@ class XcriOxHandler(sax.ContentHandler):
         self.element_data = defaultdict(list)
         self.parse = None   # structure that is currently parsed
         self.tag = None     # current name of the key
+        self.capture_data = False
 
     def startElementNS(self, (uri, localname), qname, attrs):
         self.capture_data = False
@@ -63,7 +66,6 @@ class XcriOxHandler(sax.ContentHandler):
             if data.strip():
                 self.element_data[self.tag].append(data.strip())
 
-
 #    def endDocument(self):
 #        item = {
 #            'provider_name': 'PROVIDER',
@@ -81,7 +83,9 @@ class XcriOxHandler(sax.ContentHandler):
 
 class XcriOxImporter(object):
 
-    def __init__(self, xcri_file, buffer_size=8192, handler=XcriOxHandler):
+    def __init__(self, indexer, xcri_file, buffer_size=8192,
+                 handler=XcriOxHandler):
+        self.indexer = indexer
         self.xcri_file = xcri_file
         self.buffer_size = buffer_size
         self.handler = handler()
@@ -95,6 +99,9 @@ class XcriOxImporter(object):
             parser.feed(buffered_data)
             buffered_data = self.xcri_file.read(self.buffer_size)
         parser.close()
+        for presentation in self.handler.presentations:
+            self.indexer.index(presentation)
+        self.indexer.commit()
 
 
 def main():
@@ -103,8 +110,9 @@ def main():
     args = argparse.ArgumentParser()
     args.add_argument('xcri_file', type=argparse.FileType('r'))
     ns = args.parse_args()
-    naptan_importer = XcriOxImporter(ns.xcri_file)
-    naptan_importer.run()
+    solr = SolrSearch('collection1', 'http://localhost:8983/solr/')
+    xcri_importer = XcriOxImporter(solr, ns.xcri_file)
+    xcri_importer.run()
 
 
 if __name__ == '__main__':
