@@ -1,7 +1,8 @@
-from moxie.core.service import Service
+from moxie.core.service import ProviderService
+from itertools import chain
 
 
-class CoursesService(Service):
+class CourseService(ProviderService):
     default_search = '*'
 
     def list_courses(self, authorized=False):
@@ -9,3 +10,6 @@ class CoursesService(Service):
         if authorized:
             courses.append({'name': 'Oxford Special Forces'})
         return courses
+
+    def my_courses(self, signer):
+        return chain([p.user_courses(signer=signer) for p in self.providers])
