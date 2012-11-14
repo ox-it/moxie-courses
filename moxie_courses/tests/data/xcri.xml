@@ -1,214 +1,257 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xcri:catalog xmlns:oxcap="http://purl.ox.ac.uk/oxcap/ns/" generated="2012-11-12T10:22:26.643853+00:00" xmlns:xcri="http://xcri.org/profiles/1.2/catalog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mlo="http://purl.org/net/mlo" xsi:schemaLocation="http://www.w3.org/2003/01/geo/wgs84_pos http://xcri-dev.conted.ox.ac.uk/geo.xsd http://xcri.co.uk http://www.xcri.co.uk/bindings/coursedataprogramme.xsd http://xcri.org/profiles/1.2/catalog http://www.xcri.co.uk/bindings/xcri_cap_1_2.xsd http://xcri.org/profiles/1.2/catalog/terms http://www.xcri.co.uk/bindings/xcri_cap_terms_1_2.xsd" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<xcri:catalog xmlns:html="http://www.w3.org/1999/xhtml" xmlns:cdp="http://xcri.co.uk" xmlns:oxcap="http://purl.ox.ac.uk/oxcap/ns/" generated="2012-11-14T10:23:08.834673+00:00" xmlns:xcri="http://xcri.org/profiles/1.2/catalog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.w3.org/2003/01/geo/wgs84_pos http://xcri-dev.conted.ox.ac.uk/geo.xsd http://xcri.co.uk http://www.xcri.co.uk/bindings/coursedataprogramme.xsd http://xcri.org/profiles/1.2/catalog http://www.xcri.co.uk/bindings/xcri_cap_1_2.xsd http://xcri.org/profiles/1.2/catalog/terms http://www.xcri.co.uk/bindings/xcri_cap_terms_1_2.xsd" xmlns:mlo="http://purl.org/net/mlo">
     <dc:identifier>https://data.ox.ac.uk/id/courses/cobomo-catalogue</dc:identifier>
+    <dc:title>Course catalogue for bookings through Mobile Oxford</dc:title>
     <xcri:provider>
-        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:division">4D</dc:identifier>
-        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oucs">mpls</dc:identifier>
-        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:twoThree">D4</dc:identifier>
-        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:department">4D00</dc:identifier>
-        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">23232639</dc:identifier>
-        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/23232639</dc:identifier>
-        <dc:title>Mathematical, Physical and Life Sciences</dc:title>
-        <mlo:url>http://www.mpls.ox.ac.uk/</mlo:url>
+        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:department">5E00</dc:identifier>
+        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">23233551</dc:identifier>
+        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:twoThree">D5</dc:identifier>
+        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oucs">humdiv</dc:identifier>
+        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:division">5E</dc:identifier>
+        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/23233551</dc:identifier>
+        <dc:title>Humanities Division</dc:title>
+        <mlo:url>http://www.humanities.ox.ac.uk/</mlo:url>
         <mlo:location>
-            <mlo:address>9 Parks Road</mlo:address>
+            <mlo:address>Radcliffe Observatory Quarter</mlo:address>
+            <mlo:address>Radcliffe Humanities</mlo:address>
             <mlo:address>Oxford</mlo:address>
-            <mlo:postcode>OX1 3PD</mlo:postcode>
+            <mlo:postcode>OX2 6GG</mlo:postcode>
         </mlo:location>
-        <xcri:course>
-            <dc:identifier>4D00D40013</dc:identifier>
-            <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/5998</dc:identifier>
-            <dc:identifier>5998</dc:identifier>
-            <mlo:url>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40013</mlo:url>
-            <dc:description>This session will provide a general introduction to ethical issues in research, considering the decisions to be made in its planning, conduct, and publication. Through lecture, discussion, and case studies we will aim to develop a systematic understanding of issues by locating them within an ethical framework. The aim of the session is to encourage participants to articulate and reflect on the ethical concerns present in the course of their own research, and consider how best to address them.</dc:description>
+        <xcri:course oxcap:visibility="PB">
+            <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:daisy-course">5E00D50013</dc:identifier>
+            <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/9051</dc:identifier>
+            <dc:identifier>9051</dc:identifier>
+            <dc:title>Monograph Publishing Workshop</dc:title>
+            <mlo:url>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50013</mlo:url>
+            <dc:description>This workshop is open to graduate students in their third year of doctoral research or above, and to research and teaching staff in the Humanities.
+
+                Participants are required to submit a 1,000 word research outline following confirmation of a place at the workshop (additional details will be communicated via email). There is a small amount of background reading to do before the workshop.
+
+                The focus of the workshop is on turning the doctoral thesis into a monograph and it is run by the publishing consultant Josie Dixon. Josie has over fifteen years experience in directing, commissioning and management roles with Palgrave Macmillan and Cambridge University Press.
+
+                This half-day workshop encourages participants to view their research as others will see it, along the line that stretches from commissioning editors and publishers referees all the way down the supply chain to booksellers, librarians, review editors, and the prospective readership.  This involves thinking about the market, choosing and approaching a publisher, and working out how to represent your work to best advantage. Discussion and exercises ensure that the material remains practically based throughout.
+
+                Breakdown of the workshop:
+
+                * The publishing mentality
+                * Book or article?
+                * Who are you writing for?
+                * Why it matters - defining your contribution to scholarship
+                * Interdisciplinary work &amp; essay collections
+                * Choosing the right publisher &amp; making your approach
+                * Choosing a title
+                * Project descriptions and selling-points</dc:description>
             <xcri:regulations>University of Oxford members</xcri:regulations>
             <dc:subject>Graduate Training</dc:subject>
-            <dc:subject xmlns:ns="https://data.ox.ac.uk/id/ox-rm/" xsi:type="ns:notation" identifier="ET">Ethics</dc:subject>
-            <xcri:presentation>
-                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/14843</dc:identifier>
-                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/14843</dc:identifier>
-                <dc:identifier>14843</dc:identifier>
-                <mlo:start>To be confirmed</mlo:start>
-                <xcri:end>To be confirmed</xcri:end>
-                <xcri:applyFrom dtf="2011-08-10">Wednesday 10th of August 2011</xcri:applyFrom>
-                <xcri:applyUntil dtf="2011-11-21">Monday 21st of November 2011</xcri:applyUntil>
-                <mlo:places>30</mlo:places>
-                <xcri:applyTo>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40013</xcri:applyTo>
+            <xcri:presentation oxcap:status="AC">
+                <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:daisy-presentation">19321</dc:identifier>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/19321</dc:identifier>
+                <dc:title>Monograph Publishing Workshop (TT12)</dc:title>
+                <mlo:start dtf="2012-06-14">Thursday 14th of June 2012</mlo:start>
+                <xcri:end dtf="2012-06-14">Thursday 14th of June 2012</xcri:end>
+                <xcri:applyFrom dtf="2012-05-08">Tuesday 8th of May 2012</xcri:applyFrom>
+                <xcri:applyUntil dtf="2012-05-28">Monday 28th of May 2012</xcri:applyUntil>
+                <mlo:places>14</mlo:places>
+                <xcri:applyTo>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50013</xcri:applyTo>
                 <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
                 <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
-                <xcri:venue>
-                    <xcri:provider>
-                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">52999815</dc:identifier>
-                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/52999815</dc:identifier>
-                        <dc:title>Centenary Room</dc:title>
-                    </xcri:provider>
-                </xcri:venue>
-                <oxcap:bookingEndpoint>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40013</oxcap:bookingEndpoint>
+                <oxcap:bookingEndpoint>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50013</oxcap:bookingEndpoint>
+                <xcri:applicationProcedure>
+                    <html:div>
+                        <html:p>Apply via <html:a href="https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50013">https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50013</html:a>.</html:p>
+                    </html:div>
+                </xcri:applicationProcedure>
             </xcri:presentation>
-            <xcri:presentation>
-                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/19866</dc:identifier>
-                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/19866</dc:identifier>
-                <dc:identifier>19866</dc:identifier>
-                <mlo:start dtf="2012-11-20">Tuesday 20th of November 2012</mlo:start>
-                <xcri:end dtf="2012-11-20">Tuesday 20th of November 2012</xcri:end>
-                <xcri:applyFrom dtf="2012-09-24">Monday 24th of September 2012</xcri:applyFrom>
-                <xcri:applyUntil dtf="2012-11-19">Monday 19th of November 2012</xcri:applyUntil>
-                <mlo:places>30</mlo:places>
-                <xcri:applyTo>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40013</xcri:applyTo>
+            <xcri:presentation oxcap:status="AC">
+                <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:daisy-presentation">19322</dc:identifier>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/19322</dc:identifier>
+                <dc:title>Monograph Publishing Workshop (TT12)</dc:title>
+                <mlo:start dtf="2012-06-15">Friday 15th of June 2012</mlo:start>
+                <xcri:end dtf="2012-06-15">Friday 15th of June 2012</xcri:end>
+                <xcri:applyFrom dtf="2012-05-08">Tuesday 8th of May 2012</xcri:applyFrom>
+                <xcri:applyUntil dtf="2012-05-28">Monday 28th of May 2012</xcri:applyUntil>
+                <mlo:places>14</mlo:places>
+                <xcri:applyTo>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50013</xcri:applyTo>
                 <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
                 <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
-                <xcri:venue>
-                    <xcri:provider>
-                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">52999815</dc:identifier>
-                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/52999815</dc:identifier>
-                        <dc:title>Centenary Room</dc:title>
-                    </xcri:provider>
-                </xcri:venue>
-                <oxcap:bookingEndpoint>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40013</oxcap:bookingEndpoint>
-            </xcri:presentation>
-            <xcri:presentation>
-                <dc:identifier>9842</dc:identifier>
-                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/9842</dc:identifier>
-                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/9842</dc:identifier>
-                <mlo:start>To be confirmed</mlo:start>
-                <xcri:end>To be confirmed</xcri:end>
-                <xcri:applyFrom dtf="2010-10-04">Monday 4th of October 2010</xcri:applyFrom>
-                <xcri:applyUntil dtf="2010-11-15">Monday 15th of November 2010</xcri:applyUntil>
-                <mlo:places>30</mlo:places>
-                <xcri:applyTo>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40013</xcri:applyTo>
-                <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
-                <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
-                <xcri:venue>
-                    <xcri:provider>
-                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">23232549</dc:identifier>
-                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/23232549</dc:identifier>
-                        <dc:title>Wolfson Seminar Room</dc:title>
-                    </xcri:provider>
-                </xcri:venue>
-                <oxcap:bookingEndpoint>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40013</oxcap:bookingEndpoint>
+                <oxcap:bookingEndpoint>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50013</oxcap:bookingEndpoint>
+                <xcri:applicationProcedure>
+                    <html:div>
+                        <html:p>Apply via <html:a href="https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50013">https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50013</html:a>.</html:p>
+                    </html:div>
+                </xcri:applicationProcedure>
             </xcri:presentation>
         </xcri:course>
-        <xcri:course>
-            <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/5995</dc:identifier>
-            <dc:identifier>4D00D40010</dc:identifier>
-            <dc:identifier>5995</dc:identifier>
-            <mlo:url>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</mlo:url>
-            <dc:description>This course addresses the special challenges final-year research students face. As deadlines approach, researchers must gain / retain control, and understand priorities if they are to meet them successfully. Topics include:
+        <xcri:course oxcap:visibility="PB">
+            <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:daisy-course">5E00D50014</dc:identifier>
+            <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/9072</dc:identifier>
+            <dc:identifier>9072</dc:identifier>
+            <dc:title>Broadcasting in the Humanities</dc:title>
+            <mlo:url>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50014</mlo:url>
+            <dc:description>Increasingly, researchers are required to consider other audiences for their research. This broadcasting workshop will present a rationale for engaging the public with ones research via the media (with a particular emphasis on radio broadcasting). It will demonstrate the potential benefits to you and your research.
 
-                - Time planning for completion of the thesis
-                - Planning for the viva voce examination
-                - Dealing with interruptions to the finishing process (job interviews etc.)
-                - Breaking through work blocks
-                - Managing resources and contingency planning
-                - Working effectively with your supervisors
-                - Constructing a time-line with official milestones and deadlines</dc:description>
+                Through a series of interactive activities, participants will identify the strengths and weaknesses of a good academic radio performance, discuss the potential pitfalls and identify what radio commissioners need from academic contributors. Participants will also have the opportunity to develop a radio programme pitch pertaining to their research and receive feedback on their performance in a mock radio show exercise
+
+                The Humanities Division has gathered together a star studded cast to help walk you through your approach to developing your academic career in a new way. Mark Damazer (ex-Controller, BBC Radio 4), Beaty Rubens (Senior Producer, BBC Radio), Rana Mitter (Broadcaster and Researcher, History), Kirsty Pope (Producer, BBC Radio), and Abby Williams (Researcher, English) will shed new light on academics' involvement in broadcasting and communicating with non-academic audiences.
+
+                Wednesday 27 June, 9.00am-3.00pm
+                Venue will be communicated via email once your place is confirmed.
+
+                Please direct all queries to: training@humanities.ox.ac.uk</dc:description>
             <xcri:regulations>University of Oxford members</xcri:regulations>
-            <dc:subject xmlns:ns="https://data.ox.ac.uk/id/ox-rm/" xsi:type="ns:notation" identifier="PE">Personal Effectiveness</dc:subject>
             <dc:subject>Graduate Training</dc:subject>
-            <xcri:presentation>
-                <dc:identifier>19245</dc:identifier>
-                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/19245</dc:identifier>
-                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/19245</dc:identifier>
-                <mlo:start dtf="2012-05-11">Friday 11th of May 2012</mlo:start>
-                <xcri:end dtf="2012-05-11">Friday 11th of May 2012</xcri:end>
-                <xcri:applyFrom dtf="2012-04-10">Tuesday 10th of April 2012</xcri:applyFrom>
-                <xcri:applyUntil dtf="2012-05-10">Thursday 10th of May 2012</xcri:applyUntil>
-                <mlo:places>24</mlo:places>
-                <xcri:applyTo>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</xcri:applyTo>
+            <xcri:presentation oxcap:status="AC">
+                <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:daisy-presentation">19565</dc:identifier>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/19565</dc:identifier>
+                <dc:title>Broadcasting in the Humanities</dc:title>
+                <mlo:start dtf="2012-06-27">Wednesday 27th of June 2012</mlo:start>
+                <xcri:end dtf="2012-06-27">Wednesday 27th of June 2012</xcri:end>
+                <xcri:applyFrom dtf="2012-06-12">Tuesday 12th of June 2012</xcri:applyFrom>
+                <xcri:applyUntil dtf="2012-06-27">Wednesday 27th of June 2012</xcri:applyUntil>
+                <mlo:places>30</mlo:places>
+                <xcri:applyTo>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50014</xcri:applyTo>
                 <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
                 <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
-                <xcri:venue>
-                    <xcri:provider>
-                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">52999815</dc:identifier>
-                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/52999815</dc:identifier>
-                        <dc:title>Centenary Room</dc:title>
-                    </xcri:provider>
-                </xcri:venue>
-                <oxcap:bookingEndpoint>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</oxcap:bookingEndpoint>
+                <oxcap:bookingEndpoint>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50014</oxcap:bookingEndpoint>
+                <xcri:applicationProcedure>
+                    <html:div>
+                        <html:p>Apply via <html:a href="https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50014">https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50014</html:a>.</html:p>
+                    </html:div>
+                </xcri:applicationProcedure>
             </xcri:presentation>
-            <xcri:presentation>
-                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/15289</dc:identifier>
-                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/15289</dc:identifier>
-                <dc:identifier>15289</dc:identifier>
-                <mlo:start dtf="2012-02-02">Thursday 2nd of February 2012</mlo:start>
-                <xcri:end dtf="2012-02-02">Thursday 2nd of February 2012</xcri:end>
-                <xcri:applyFrom dtf="2011-11-10">Thursday 10th of November 2011</xcri:applyFrom>
-                <xcri:applyUntil dtf="2012-02-01">Wednesday 1st of February 2012</xcri:applyUntil>
-                <mlo:places>24</mlo:places>
-                <xcri:applyTo>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</xcri:applyTo>
+        </xcri:course>
+        <xcri:course oxcap:visibility="PB">
+            <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:daisy-course">5E00D50010</dc:identifier>
+            <dc:identifier>9043</dc:identifier>
+            <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/9043</dc:identifier>
+            <dc:title>Lunchtime Briefings on the Digital Humanities</dc:title>
+            <mlo:url>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50010</mlo:url>
+            <dc:description>These introductory briefings are for scholars in the humanities who want to know more about the opportunities to use advanced digital technologies for research. They will combine broad introductions to different kinds of technology with illustrations from humanities projects that have used them.
+
+                The briefings will be held from 1:00pm to 3:00 pm in Room 3, Taylor Institution, St Giles. Sandwiches will be available from 1:00pm. There will be short presentations from 1:15pm to 2:00pm, followed by discussion.
+
+                Staff and research students are all welcome, but places are limited.
+
+                Below you can register to attend a specific day or the entire series across the four days. If you wish to only attend specific days, please be sure to deselect the days that you will not be attending as the default automatically selects the full series.
+
+                Monday 21 May: Digital editions
+                Digital technologies not only make the production of scholarly editions much easier, but also have the potential to transform them through new techniques and resources, notably linking and multimedia.
+
+                Mark Philp (Politics), Diary as data: The case of William Godwin
+                Giles Bergel (English), The collaborative digitisation of an early printed ballad: image, text and tradition
+                James Cummings (OUCS), Tools and technologies for digital editions
+
+                Tuesday 22 May: Large datasets
+                Research in the humanities can now draw on a vastly increased quantity of digital data resources: these enable new research questions to be asked, as well as new answers to old questions, but require new kinds of technology to take advantage of them.
+
+                Martin Wynne (OeRC) What does Big Data mean in the humanities?
+                Sebastian Rahtz (OUCS), Integrating disparate resources using a linked data approach
+                Glenn Roe (OeRC/Modern Languages), Data mining applications for literary research
+
+                Wednesday 23 May: Sound
+                Non-textual digital media are increasingly important in the humanities. Digital sound studies have become a significant part of research in music and linguistics, and have potential for other areas such as literature and cross-modal arts.
+
+                John Coleman (Phonetics), Speech: the beating heart of language
+                Duncan Williams (Music), Searching for meaning in musicological analyses of in-field recordings
+                Dave De Roure (OeRC), Analysis of music on the scale of the Web
+
+                Thursday 24 May, Images
+                Images have become a major subject for digital work in the humanities, both as an object of study, through capture, analysis, retrieval and linking, and as a tool for study: technologies of visualization are indispensible for the processing of very large amounts of data.
+
+                Segolene Tarte (OeRC) and Jacob Dahl (Oriental Studies), Images and script decipherment: the interplay of digitization and interpretation
+                Min Chen (OeRC), What is visualization really for?
+
+                See http://digital.humanities.ox.ac.uk/ for more information about Oxfords full range of activities and resources in the digital humanities.
+
+                Please direct any queries regarding the training programme or the registration process to: training@humanities.ox.ac.uk
+            </dc:description>
+            <xcri:regulations>University of Oxford members</xcri:regulations>
+            <dc:subject>Graduate Training</dc:subject>
+            <xcri:presentation oxcap:status="AC">
+                <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:daisy-presentation">19303</dc:identifier>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/19303</dc:identifier>
+                <dc:title>Images</dc:title>
+                <mlo:start dtf="2012-05-24">Thursday 24th of May 2012</mlo:start>
+                <xcri:end dtf="2012-05-24">Thursday 24th of May 2012</xcri:end>
+                <xcri:applyFrom dtf="2012-04-19">Thursday 19th of April 2012</xcri:applyFrom>
+                <xcri:applyUntil dtf="2012-05-14">Monday 14th of May 2012</xcri:applyUntil>
+                <mlo:places>30</mlo:places>
+                <xcri:applyTo>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50010</xcri:applyTo>
                 <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
                 <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
-                <xcri:venue>
-                    <xcri:provider>
-                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">52999815</dc:identifier>
-                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/52999815</dc:identifier>
-                        <dc:title>Centenary Room</dc:title>
-                    </xcri:provider>
-                </xcri:venue>
-                <oxcap:bookingEndpoint>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</oxcap:bookingEndpoint>
+                <oxcap:bookingEndpoint>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50010</oxcap:bookingEndpoint>
+                <xcri:applicationProcedure>
+                    <html:div>
+                        <html:p>Apply via <html:a href="https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50010">https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50010</html:a>.</html:p>
+                    </html:div>
+                </xcri:applicationProcedure>
             </xcri:presentation>
-            <xcri:presentation>
-                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/14842</dc:identifier>
-                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/14842</dc:identifier>
-                <dc:identifier>14842</dc:identifier>
-                <mlo:start>To be confirmed</mlo:start>
-                <xcri:end>To be confirmed</xcri:end>
-                <xcri:applyFrom dtf="2011-08-10">Wednesday 10th of August 2011</xcri:applyFrom>
-                <xcri:applyUntil dtf="2011-10-30">Sunday 30th of October 2011</xcri:applyUntil>
-                <mlo:places>24</mlo:places>
-                <xcri:applyTo>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</xcri:applyTo>
+        </xcri:course>
+        <xcri:course oxcap:visibility="PB">
+            <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:daisy-course">5E00D50010</dc:identifier>
+            <dc:identifier>9042</dc:identifier>
+            <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/9042</dc:identifier>
+            <dc:title>Lunchtime Briefings on the Digital Humanities</dc:title>
+            <mlo:url>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50010</mlo:url>
+            <dc:description>These introductory briefings are for scholars in the humanities who want to know more about the opportunities to use advanced digital technologies for research. They will combine broad introductions to different kinds of technology with illustrations from humanities projects that have used them.
+
+                The briefings will be held from 1:00pm to 3:00 pm in Room 3, Taylor Institution, St Giles. Sandwiches will be available from 1:00pm. There will be short presentations from 1:15pm to 2:00pm, followed by discussion.
+
+                Staff and research students are all welcome, but places are limited.
+
+                Below you can register to attend a specific day or the entire series across the four days. If you wish to only attend specific days, please be sure to deselect the days that you will not be attending as the default automatically selects the full series.
+
+                Monday 21 May: Digital editions
+                Digital technologies not only make the production of scholarly editions much easier, but also have the potential to transform them through new techniques and resources, notably linking and multimedia.
+
+                Mark Philp (Politics), Diary as data: The case of William Godwin
+                Giles Bergel (English), The collaborative digitisation of an early printed ballad: image, text and tradition
+                James Cummings (OUCS), Tools and technologies for digital editions
+
+                Tuesday 22 May: Large datasets
+                Research in the humanities can now draw on a vastly increased quantity of digital data resources: these enable new research questions to be asked, as well as new answers to old questions, but require new kinds of technology to take advantage of them.
+
+                Martin Wynne (OeRC) What does Big Data mean in the humanities?
+                Sebastian Rahtz (OUCS), Integrating disparate resources using a linked data approach
+                Glenn Roe (OeRC/Modern Languages), Data mining applications for literary research
+
+                Wednesday 23 May: Sound
+                Non-textual digital media are increasingly important in the humanities. Digital sound studies have become a significant part of research in music and linguistics, and have potential for other areas such as literature and cross-modal arts.
+
+                John Coleman (Phonetics), Speech: the beating heart of language
+                Duncan Williams (Music), Searching for meaning in musicological analyses of in-field recordings
+                Dave De Roure (OeRC), Analysis of music on the scale of the Web
+
+                Thursday 24 May, Images
+                Images have become a major subject for digital work in the humanities, both as an object of study, through capture, analysis, retrieval and linking, and as a tool for study: technologies of visualization are indispensible for the processing of very large amounts of data.
+
+                Segolene Tarte (OeRC) and Jacob Dahl (Oriental Studies), Images and script decipherment: the interplay of digitization and interpretation
+                Min Chen (OeRC), What is visualization really for?
+
+                See http://digital.humanities.ox.ac.uk/ for more information about Oxfords full range of activities and resources in the digital humanities.
+
+                Please direct any queries regarding the training programme or the registration process to: training@humanities.ox.ac.uk
+            </dc:description>
+            <xcri:regulations>University of Oxford members</xcri:regulations>
+            <dc:subject>Graduate Training</dc:subject>
+            <xcri:presentation oxcap:status="AC">
+                <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:daisy-presentation">19302</dc:identifier>
+                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/19302</dc:identifier>
+                <dc:title>Sound</dc:title>
+                <mlo:start dtf="2012-05-23">Wednesday 23rd of May 2012</mlo:start>
+                <xcri:end dtf="2012-05-23">Wednesday 23rd of May 2012</xcri:end>
+                <xcri:applyFrom dtf="2012-04-19">Thursday 19th of April 2012</xcri:applyFrom>
+                <xcri:applyUntil dtf="2012-05-14">Monday 14th of May 2012</xcri:applyUntil>
+                <mlo:places>30</mlo:places>
+                <xcri:applyTo>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50010</xcri:applyTo>
                 <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
                 <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
-                <xcri:venue>
-                    <xcri:provider>
-                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">52999815</dc:identifier>
-                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/52999815</dc:identifier>
-                        <dc:title>Centenary Room</dc:title>
-                    </xcri:provider>
-                </xcri:venue>
-                <oxcap:bookingEndpoint>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</oxcap:bookingEndpoint>
-            </xcri:presentation>
-            <xcri:presentation>
-                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/9839</dc:identifier>
-                <dc:identifier>9839</dc:identifier>
-                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/9839</dc:identifier>
-                <mlo:start>To be confirmed</mlo:start>
-                <xcri:end>To be confirmed</xcri:end>
-                <xcri:applyFrom dtf="2010-10-04">Monday 4th of October 2010</xcri:applyFrom>
-                <xcri:applyUntil dtf="2010-11-01">Monday 1st of November 2010</xcri:applyUntil>
-                <mlo:places>24</mlo:places>
-                <xcri:applyTo>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</xcri:applyTo>
-                <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
-                <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
-                <xcri:venue>
-                    <xcri:provider>
-                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">52999815</dc:identifier>
-                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/52999815</dc:identifier>
-                        <dc:title>Centenary Room</dc:title>
-                    </xcri:provider>
-                </xcri:venue>
-                <oxcap:bookingEndpoint>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</oxcap:bookingEndpoint>
-            </xcri:presentation>
-            <xcri:presentation>
-                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/course/19865</dc:identifier>
-                <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/19865</dc:identifier>
-                <dc:identifier>19865</dc:identifier>
-                <mlo:start dtf="2012-11-14">Wednesday 14th of November 2012</mlo:start>
-                <xcri:end dtf="2012-11-14">Wednesday 14th of November 2012</xcri:end>
-                <xcri:applyFrom dtf="2012-09-24">Monday 24th of September 2012</xcri:applyFrom>
-                <xcri:applyUntil dtf="2012-11-13">Tuesday 13th of November 2012</xcri:applyUntil>
-                <mlo:places>24</mlo:places>
-                <xcri:applyTo>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</xcri:applyTo>
-                <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
-                <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
-                <xcri:venue>
-                    <xcri:provider>
-                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">52999815</dc:identifier>
-                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/52999815</dc:identifier>
-                        <dc:title>Centenary Room</dc:title>
-                    </xcri:provider>
-                </xcri:venue>
-                <oxcap:bookingEndpoint>https://weblearn.oucs.ox.ac.uk/course-signup/rest/course/4D00D40010</oxcap:bookingEndpoint>
+                <oxcap:bookingEndpoint>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50010</oxcap:bookingEndpoint>
+                <xcri:applicationProcedure>
+                    <html:div>
+                        <html:p>Apply via <html:a href="https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50010">https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50010</html:a>.</html:p>
+                    </html:div>
+                </xcri:applicationProcedure>
             </xcri:presentation>
         </xcri:course>
     </xcri:provider>

@@ -12,7 +12,7 @@ class XcriOxImporterTestCase(unittest.TestCase):
 
     def setUp(self):
         logging.basicConfig(level=logging.DEBUG)
-        # 1 provider, 2 courses, 8 presentations (total)
+        # 1 provider, 3 courses, 5 presentations (total)
         self.xcri_path = 'moxie_courses/tests/data/xcri.xml'
         self.mock_index = Mock(spec=SearchService)
         #self.mock_index.search_for_ids.return_value = SearchResponse({'response': {'docs': []}}, None, [])
@@ -30,7 +30,7 @@ class XcriOxImporterTestCase(unittest.TestCase):
             buffered_data = xcri_file.read(8192)
         parser.close()
 
-        self.assertEqual(len(xml_handler.presentations), 8)
+        self.assertEqual(len(xml_handler.presentations), 5)
 
     def test_importer(self):
         importer = XcriOxImporter(self.mock_index, open(self.xcri_path))
