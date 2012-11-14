@@ -1,31 +1,66 @@
 import requests
-import json
+import urlparse
+import datetime
+
+from moxie_courses.course import Course, Presentation
 
 
 class WebLearnProvider(object):
 
-    def __init__(self, endpoint, auth_signer):
+    def __init__(self, endpoint, supported_hostnames=[]):
         self.endpoint = endpoint
-        self.auth_signer = auth_signer
+
+        endpoint_hostname = urlparse.urlparse(endpoint).hostname
+        self.supported_hostnames = supported_hostnames or [endpoint_hostname]
 
         self.booking_url = endpoint + 'signup/cobomo/my/new'
         self.description_url = endpoint + 'course/cobomo/%s'
-        self.user_courses_url = endpoint + 'signup/cobomo/my/new'
-        self.withdraw_url = endpoint + 'signup/cobomo/my/new'
+        self.user_courses_url = endpoint + 'signup/cobomo/my'
 
     def handles(self, presentation):
-        """ NOTE we're following the same pattern as our transport providers
-        here, should abstract and reuse code
+        hn = urlparse.urlparse(presentation.apply_link).hostname
+        return (hn in self.supported_hostnames)
 
-        TODO: Test the signup hostname is the same as our endpoint's
-        """
-        return True
-
-    def book(self, presentation, supervisor_email=None, supervisor_message=None):
+    def book(self, presentation, signer,
+            supervisor_email=None,
+            supervisor_message=None):
+        _, _, courseId = presentation.apply_link.rpartition('/')
         payload = {'components': presentation.id,
-                'courseId': presentation.course_id}
+                'courseId': presentation.course.id}
         if supervisor_email and supervisor_message:
             payload['email'] = supervisor_email
             payload['message'] = supervisor_message
-        requests.post(self.booking_endpoint, data=json.dumps(payload),
-                auth=self.auth_signer)
+        return requests.post(self.booking_url, data=payload,
+                auth=signer)
+
+    def user_courses(self, signer):
+        response = requests.get(self.user_courses_url, auth=signer)
+        return self._parse_list_response(response.json)
+
+    @staticmethod
+    def datetime_from_ms(ms):
+        """Convert a timestamp in ms into a datetime"""
+        return datetime.datetime.fromtimestamp(ms / 1000.0)
+
+    def _parse_list_response(self, response):
+        courses = []
+        for c in response:
+            course = Course(
+                    id=c['group']['id'],
+                    title=c['group']['title'],
+                    description=c['group']['description'],
+                    provider=c['group']['department'],
+                    subjects=[cat['name'] for cat in c['group']['categories']],
+                    )
+            presentations = []
+            for component in c['components']:
+                presentations.append(Presentation(
+                    id=component['id'],
+                    course=course,
+                    start=self.datetime_from_ms(component['starts']),
+                    end=self.datetime_from_ms(component['ends']),
+                    location=component['location'],
+                    ))
+            course.presentations = presentations
+            courses.append(course)
+        return courses
