@@ -67,7 +67,7 @@ class XcriOxHandler(sax.ContentHandler):
 
     def endElementNS(self, (uri, localname), qname):
         if (uri, localname) == (XCRI_NS, "presentation"):
-            logger.debug(self.element_data)
+            #logger.debug(self.element_data)
             self.presentations.append(self.element_data)
             self.parse = None
             self.element_data = defaultdict(list)
@@ -104,8 +104,14 @@ class XcriOxImporter(object):
         self.xcri_file = xcri_file
         self.buffer_size = buffer_size
         self.handler = handler()
+        self.presentations = []
 
     def run(self):
+        self.parse()
+        self.indexer.index(self.presentations)
+        self.indexer.commit()
+
+    def parse(self):
         parser = sax.make_parser()
         parser.setContentHandler(self.handler)
         parser.setFeature(sax.handler.feature_namespaces, 1)
@@ -114,21 +120,33 @@ class XcriOxImporter(object):
             parser.feed(buffered_data)
             buffered_data = self.xcri_file.read(self.buffer_size)
         parser.close()
-        return
-        for presentation in self.handler.presentations:
+
+        # transformations
+        for p in self.handler.presentations:
             try:
-                presentation['provider_title'] = presentation['provider_title'][0]
-                presentation['course_title'] = presentation['course_title'][0]
-                presentation['course_identifier'] = presentation['course_identifier'][0]
-                presentation['presentation_identifier'] = presentation['presentation_identifier'][0]
-                self.indexer.index([presentation])
+                p['provider_title'] = p['provider_title'][0]
+                p['course_title'] = p['course_title'][0]
+                p['course_identifier'] = self._get_identifier(p['course_identifier'])
+                if type(p['course_description']) == list:
+                    p['course_description'] = p['course_description'][0]
+                p['presentation_identifier'] = self._get_identifier(p['presentation_identifier'])
+                if 'presentation_start' in p:
+                    p['presentation_start'] = self._date_to_solr_format(p['presentation_start'])
+                if 'presentation_end' in p:
+                    p['presentation_end'] = self._date_to_solr_format(p['presentation_end'])
+                if 'presentation_applyFrom' in p:
+                    p['presentation_applyFrom'] = self._date_to_solr_format(p['presentation_applyFrom'])
+                if 'presentation_applyUntil' in p:
+                    p['presentation_applyUntil'] = self._date_to_solr_format(p['presentation_applyUntil'])
+                if 'presentation_bookingEndpoint' in p:
+                    p['presentation_bookingEndpoint'] = p['presentation_bookingEndpoint'][0]
+
+                self.presentations.append(p)
             except Exception as e:
-                logger.debug(presentation)
                 logger.debug(e)
-        self.indexer.commit()
 
     @classmethod
-    def date_to_solr_format(self, date):
+    def _date_to_solr_format(cls, date):
         """Transforms date from '2008-01-01' to '2008-01-01T00:00:00Z'
         :param date: date to format
         :return date formatted as 2008-01-01T00:00:00Z
@@ -139,6 +157,18 @@ class XcriOxImporter(object):
             month=elements[1],
             day=elements[2]
         )
+
+    @classmethod
+    def _get_identifier(cls, identifiers):
+        """Get an ID from a list of strings.
+        NOTE: it is expected to have one identifier as an URI
+        :param identifiers: list of identifier
+        :return ID as a string or None
+        """
+        for identifier in identifiers:
+            if identifier.startswith('http'):
+                return identifier.split('/')[-1]
+        return None
 
 def main():
     logging.basicConfig(level=logging.DEBUG)

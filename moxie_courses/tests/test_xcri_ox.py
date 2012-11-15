@@ -35,6 +35,13 @@ class XcriOxImporterTestCase(unittest.TestCase):
     def test_importer(self):
         importer = XcriOxImporter(self.mock_index, open(self.xcri_path))
         importer.run()
+        presentations = importer.presentations
+        first = presentations[0]
+
+        self.assertEqual(first['course_title'], "Monograph Publishing Workshop")
+        self.assertEqual(len(first['course_subject']), 1)
+        self.assertEqual(first['presentation_start'], "2012-06-14T00:00:00Z")
+        self.assertEqual(first['presentation_bookingEndpoint'], "https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50013")
 
     def test_handler_split_qname(self):
         self.assertEqual(XcriOxHandler._split_qname("prefix:property"),
@@ -43,7 +50,13 @@ class XcriOxImporterTestCase(unittest.TestCase):
             (None, 'property'))
 
     def test_importer_date_to_solr_format(self):
-        self.assertEqual(XcriOxImporter.date_to_solr_format("2012-01-01"),
+        self.assertEqual(XcriOxImporter._date_to_solr_format("2012-01-01"),
             "2012-01-01T00:00:00Z")
-        self.assertEqual(XcriOxImporter.date_to_solr_format("2012-12-31"),
+        self.assertEqual(XcriOxImporter._date_to_solr_format("2012-12-31"),
             "2012-12-31T00:00:00Z")
+
+    def test_importer_get_identifier(self):
+        self.assertEqual(XcriOxImporter._get_identifier(['ABCD', 'https://m.ox.ac.uk/courses/1234']),
+            "1234")
+        self.assertEqual(XcriOxImporter._get_identifier(['ABCD', '12']),
+            None)
