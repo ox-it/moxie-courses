@@ -29,7 +29,7 @@ class CourseService(ProviderService):
              'fl': 'course_title,course_identifier',
              }
         results = searcher.search(q)
-        print results['grouped']['course_identifier']['groups']
+        print results.as_dict['grouped']['course_identifier']['groups']
 
     def list_courses_subject(self):
         """List all subjects from courses
@@ -39,4 +39,4 @@ class CourseService(ProviderService):
               'facet.field': 'course_subject'
               }
         results = searcher.search(q)
-        print results['facet_counts']['facet_fields']['course_subject']
+        print results.as_dict['facet_counts']['facet_fields']['course_subject']
