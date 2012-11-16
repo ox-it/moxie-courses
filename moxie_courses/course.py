@@ -20,19 +20,26 @@ class Course(object):
 
 
 class Presentation(object):
-    def __init__(self, id, course, start, end, location="", apply_link=""):
+    def __init__(self, id, course, start=None, end=None, location="",
+            apply_link="", booking_endpoint=""):
         self.id = id
         self.course = course
         self.start = start
         self.end = end
         self.location = location
         self.apply_link = apply_link
+        self.booking_endpoint = booking_endpoint
 
     def _to_json(self):
-        return {
+        response = {
                 'id': self.id,
-                'start': self.start.isoformat(),
-                'end': self.end.isoformat(),
                 'location': self.location,
                 'apply_link': self.apply_link,
                 }
+        if self.start:
+            response['start'] = self.start.isoformat()
+        if self.end:
+            response['end'] = self.end.isoformat()
+        if self.booking_endpoint:
+            response['booking_endpoint'] = self.booking_endpoint
+        return response
