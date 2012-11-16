@@ -3,6 +3,7 @@ from collections import defaultdict
 
 from xml import sax
 
+from moxie.core.search import SearchServerException
 from moxie.core.search.solr import SolrSearch
 
 
@@ -32,6 +33,8 @@ PARSE_STRUCTURE = {
             (XCRI_NS, "end"): "dtf",
             (XCRI_NS, "applyFrom"): "dtf",
             (XCRI_NS, "applyUntil"): "dtf",
+            (OXCAP_NS, "memberApplyTo"): None,
+            (XCRI_NS, "venue"): None
             },
 }
 
@@ -47,13 +50,13 @@ class XcriOxHandler(sax.ContentHandler):
 
     def startElementNS(self, (uri, localname), qname, attributes):
         self.capture_data = False
-        if (uri, localname) in PARSE_STRUCTURE:
+        if (uri, localname) in PARSE_STRUCTURE and self.tag is not "presentation_venue":
             self.parse = (uri, localname)
         elif self.parse is not None:
             element = PARSE_STRUCTURE[self.parse]
             if (uri, localname) in element:
                 attr = element[(uri, localname)]
-                self.capture_data = attributes.getLength() == 0
+                self.capture_data = attributes.getLength() == 0 and not attr
                 self.tag = "{element}_{key}".format(
                     element=self.parse[1],
                     key=localname)
@@ -62,23 +65,32 @@ class XcriOxHandler(sax.ContentHandler):
                     prefix, property = self._split_qname(qname)
                     if property == attr:
                         # Use the value of the attribute instead of the element
-                        self.element_data[self.tag] = value
+                        self.element_data[self.tag] = [value]
                         self.capture_data = False
 
     def endElementNS(self, (uri, localname), qname):
         if (uri, localname) == (XCRI_NS, "presentation"):
-            #logger.debug(self.element_data)
             self.presentations.append(self.element_data)
-            self.parse = None
-            self.element_data = defaultdict(list)
 
-    def endDocument(self):
-        logger.debug("Parsed {0} presentations.".format(len(self.presentations)))
+        if (uri, localname) == (XCRI_NS, "provider") and self.tag is not "presentation_venue":
+            self.element_data = defaultdict(list)
+            self.parse = None
+
+        if localname in ('presentation', 'course'):
+            for key in PARSE_STRUCTURE[(uri, localname)].keys():
+                # Removes all keys corresponding to the element
+                k = "{element}_{key}".format(element=localname, key=key[1])
+                if k in self.element_data:
+                    del self.element_data[k]
+            self.parse = None
 
     def characters(self, data):
         if self.capture_data:
             if data.strip():
                 self.element_data[self.tag].append(data.strip())
+
+    def endDocument(self):
+        logger.debug("Parsed {0} presentations.".format(len(self.presentations)))
 
     @classmethod
     def _split_qname(self, qname):
@@ -95,7 +107,6 @@ class XcriOxHandler(sax.ContentHandler):
         return prefix, local
 
 
-
 class XcriOxImporter(object):
 
     def __init__(self, indexer, xcri_file, buffer_size=8192,
@@ -108,8 +119,12 @@ class XcriOxImporter(object):
 
     def run(self):
         self.parse()
-        self.indexer.index(self.presentations)
-        self.indexer.commit()
+        try:
+            self.indexer.index(self.presentations)
+        except SearchServerException as sse:
+            logger.error("Error when indexing courses", exc_info=True)
+        finally:
+            self.indexer.commit()
 
     def parse(self):
         parser = sax.make_parser()
@@ -131,19 +146,20 @@ class XcriOxImporter(object):
                     p['course_description'] = p['course_description'][0]
                 p['presentation_identifier'] = self._get_identifier(p['presentation_identifier'])
                 if 'presentation_start' in p:
-                    p['presentation_start'] = self._date_to_solr_format(p['presentation_start'])
+                    p['presentation_start'] = self._date_to_solr_format(p['presentation_start'][0])
                 if 'presentation_end' in p:
-                    p['presentation_end'] = self._date_to_solr_format(p['presentation_end'])
+                    p['presentation_end'] = self._date_to_solr_format(p['presentation_end'][0])
                 if 'presentation_applyFrom' in p:
-                    p['presentation_applyFrom'] = self._date_to_solr_format(p['presentation_applyFrom'])
+                    p['presentation_applyFrom'] = self._date_to_solr_format(p['presentation_applyFrom'][0])
                 if 'presentation_applyUntil' in p:
-                    p['presentation_applyUntil'] = self._date_to_solr_format(p['presentation_applyUntil'])
+                    p['presentation_applyUntil'] = self._date_to_solr_format(p['presentation_applyUntil'][0])
                 if 'presentation_bookingEndpoint' in p:
                     p['presentation_bookingEndpoint'] = p['presentation_bookingEndpoint'][0]
 
                 self.presentations.append(p)
             except Exception as e:
-                logger.debug(e)
+                logger.warning("Couldn't transform presentation", exc_info=True,
+                    extra={'presentation': p})
 
     @classmethod
     def _date_to_solr_format(cls, date):
@@ -159,15 +175,16 @@ class XcriOxImporter(object):
         )
 
     @classmethod
-    def _get_identifier(cls, identifiers):
+    def _get_identifier(cls, identifiers, uri_base="https://course.data.ox.ac.uk/id/"):
         """Get an ID from a list of strings.
         NOTE: it is expected to have one identifier as an URI
+        We keep the last part of this URI
         :param identifiers: list of identifier
-        :return ID as a string or None
+        :return ID as a string
         """
         for identifier in identifiers:
             if identifier.startswith('http'):
-                return identifier.split('/')[-1]
+                return identifier[len(uri_base):].replace('/', '-')
         return None
 
 def main():
