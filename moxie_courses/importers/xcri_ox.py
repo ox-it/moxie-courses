@@ -47,36 +47,42 @@ class XcriOxHandler(sax.ContentHandler):
         self.parse = None   # structure that is currently parsed
         self.tag = None     # current name of the key
         self.capture_data = False
+        self.in_venue = False
 
     def startElementNS(self, (uri, localname), qname, attributes):
         self.capture_data = False
-        if (uri, localname) in PARSE_STRUCTURE and self.tag is not "presentation_venue":
+        if (uri, localname) in PARSE_STRUCTURE:
             self.parse = (uri, localname)
         elif self.parse is not None:
             element = PARSE_STRUCTURE[self.parse]
-            if (uri, localname) in element:
+            if localname == 'venue':
+                self.in_venue = True
+                self.capture_data = False
+                return
+            if (uri, localname) in element and not self.in_venue:
+                # Capture data with given key except if we need the attribute
                 attr = element[(uri, localname)]
-                self.capture_data = attributes.getLength() == 0 and not attr
+                self.capture_data = True
                 self.tag = "{element}_{key}".format(
                     element=self.parse[1],
                     key=localname)
+                if attr:
+                    self.capture_data = False
                 for name, value in attributes.items():
                     qname = attributes.getQNameByName(name)
                     prefix, property = self._split_qname(qname)
                     if property == attr:
                         # Use the value of the attribute instead of the element
                         self.element_data[self.tag] = [value]
-                        self.capture_data = False
 
     def endElementNS(self, (uri, localname), qname):
+        if localname == 'venue':
+            self.in_venue = False
+
         if (uri, localname) == (XCRI_NS, "presentation"):
-            self.presentations.append(self.element_data)
+            self.presentations.append(self.element_data.copy())
 
-        if (uri, localname) == (XCRI_NS, "provider") and self.tag is not "presentation_venue":
-            self.element_data = defaultdict(list)
-            self.parse = None
-
-        if localname in ('presentation', 'course'):
+        if localname in ('presentation', 'course', 'provider') and not self.in_venue:
             for key in PARSE_STRUCTURE[(uri, localname)].keys():
                 # Removes all keys corresponding to the element
                 k = "{element}_{key}".format(element=localname, key=key[1])
@@ -130,11 +136,12 @@ class XcriOxImporter(object):
         parser = sax.make_parser()
         parser.setContentHandler(self.handler)
         parser.setFeature(sax.handler.feature_namespaces, 1)
-        buffered_data = self.xcri_file.read(self.buffer_size)
-        while buffered_data:
-            parser.feed(buffered_data)
-            buffered_data = self.xcri_file.read(self.buffer_size)
-        parser.close()
+        parser.parse(self.xcri_file)
+        #buffered_data = self.xcri_file.read(self.buffer_size)
+        #while buffered_data:
+        #    parser.feed(buffered_data)
+        #    buffered_data = self.xcri_file.read(self.buffer_size)
+        #parser.close()
 
         # transformations
         for p in self.handler.presentations:
@@ -142,8 +149,7 @@ class XcriOxImporter(object):
                 p['provider_title'] = p['provider_title'][0]
                 p['course_title'] = p['course_title'][0]
                 p['course_identifier'] = self._get_identifier(p['course_identifier'])
-                if type(p['course_description']) == list:
-                    p['course_description'] = p['course_description'][0]
+                p['course_description'] = ''.join(p['course_description'])
                 p['presentation_identifier'] = self._get_identifier(p['presentation_identifier'])
                 if 'presentation_start' in p:
                     p['presentation_start'] = self._date_to_solr_format(p['presentation_start'][0])
