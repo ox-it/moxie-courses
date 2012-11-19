@@ -31,7 +31,7 @@ class CourseService(ProviderService):
         results = searcher.search(q)
         print results.as_dict['grouped']['course_identifier']['groups']
 
-    def list_courses_subject(self):
+    def list_courses_subjects(self):
         """List all subjects from courses
         :return list of subjects
         """
@@ -39,4 +39,11 @@ class CourseService(ProviderService):
               'facet.field': 'course_subject'
               }
         results = searcher.search(q)
-        print results.as_dict['facet_counts']['facet_fields']['course_subject']
+        facets = results.as_dict['facet_counts']['facet_fields']['course_subject']
+        # Solr returns a list as ['skill A', 0, 'skill B', 0, 'skill C', 0] (0 being a count of documents
+        # matching, 0 in our case because we do not do any query
+        # TODO there must be a nicer way of doing that
+        subjects = []
+        for facet in xrange(0, len(facets), 2):
+            subjects.append(facets[facet])
+        return subjects

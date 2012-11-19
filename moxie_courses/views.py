@@ -16,6 +16,23 @@ class ListCourses(ServiceView):
         return response
 
 
+class ListAllSubjects(ServiceView):
+    methods = ['GET', 'OPTIONS']
+
+    def handle_request(self):
+        courses = CourseService.from_context()
+        subjects = courses.list_courses_subjects()
+        return {'subjects': subjects}
+
+
+class SearchCourses(ServiceView):
+    methods = ['GET', 'OPTIONS']
+
+    def handle_request(self):
+        courses = CourseService.from_context()
+        return {}
+
+
 class Bookings(ServiceView):
     methods = ['GET', 'OPTIONS']
 
