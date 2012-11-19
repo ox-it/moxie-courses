@@ -26,10 +26,16 @@ class CourseService(ProviderService):
              'group': 'true',
              'group.field': 'course_identifier',
              'group.count': '1',
-             'fl': 'course_title,course_identifier',
+             'fl': 'course_title,course_identifier,course_description',
              }
         results = searcher.search(q)
-        print results.as_dict['grouped']['course_identifier']['groups']
+        groups = []
+        for group in results.as_dict['grouped']['course_identifier']['groups']:
+            g = { 'id': group['groupValue'],
+                  'title': group['doclist']['docs'][0]['course_title'],
+                  'description': group['doclist']['docs'][0]['course_description']}
+            groups.append(g)
+        return groups
 
     def list_courses_subjects(self):
         """List all subjects from courses

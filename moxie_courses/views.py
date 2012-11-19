@@ -1,3 +1,5 @@
+from flask import request
+
 from moxie.core.views import ServiceView
 from moxie.oauth.services import OAuth1Service
 from .services import CourseService
@@ -29,8 +31,10 @@ class SearchCourses(ServiceView):
     methods = ['GET', 'OPTIONS']
 
     def handle_request(self):
+        query = request.args.get('q', '')
         courses = CourseService.from_context()
-        return {}
+        results = courses.search_courses(query)
+        return {'results': results}
 
 
 class Bookings(ServiceView):
