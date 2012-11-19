@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, url_for
 
 from moxie.core.views import ServiceView
 from moxie.oauth.services import OAuth1Service
@@ -38,6 +38,8 @@ class SearchCourses(ServiceView):
         query = request.args.get('q', '')
         courses = CourseService.from_context()
         results = courses.search_courses(query)
+        for result in results:
+            result['_links'] = { 'self': url_for('.course', id=result['id'])}
         return {'results': results}
 
 
@@ -48,8 +50,10 @@ class CourseDetails(ServiceView):
 
     def handle_request(self, id):
         service = CourseService.from_context()
-        # path = url_for('places.poidetail', ident=doc['id'])
-        return service.list_presentations_for_course(id)._to_json()
+        course = service.list_presentations_for_course(id)._to_json()
+        course['_links'] = { 'self': url_for('.course', id=id) }
+        # TODO add link to book a presentation
+        return course
 
 
 class Bookings(ServiceView):
