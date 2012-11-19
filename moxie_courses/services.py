@@ -1,7 +1,7 @@
 from itertools import chain
 
 from moxie.core.service import ProviderService
-from moxie.core.search import searcher
+from moxie.core.search import searcher, SearchServerException
 
 
 class CourseService(ProviderService):
@@ -28,7 +28,10 @@ class CourseService(ProviderService):
              'group.count': '1',
              'fl': 'course_title,course_identifier,course_description',
              }
-        results = searcher.search(q)
+        try:
+            results = searcher.search(q)
+        except SearchServerException as sse:
+            return None
         groups = []
         for group in results.as_dict['grouped']['course_identifier']['groups']:
             g = { 'id': group['groupValue'],
