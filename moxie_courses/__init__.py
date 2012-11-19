@@ -1,7 +1,7 @@
 from flask import Blueprint
 
 from moxie import oauth
-from .views import ListCourses, Bookings, ListAllSubjects, SearchCourses, CourseDetails
+from .views import ListCourses, Bookings, ListAllSubjects, SearchCourses, CourseDetails, BookCourse
 
 
 def create_blueprint(blueprint_name):
@@ -18,6 +18,8 @@ def create_blueprint(blueprint_name):
             view_func=SearchCourses.as_view('search'))
     courses_blueprint.add_url_rule('/course/<path:id>',
             view_func=CourseDetails.as_view('course'))
+    courses_blueprint.add_url_rule('/presentation/<path:id>/book',
+            view_func=BookCourse.as_view('presentation_book'))
     oauth.attach_oauth(courses_blueprint)
 
     return courses_blueprint

@@ -52,8 +52,25 @@ class CourseDetails(ServiceView):
         service = CourseService.from_context()
         course = service.list_presentations_for_course(id)._to_json()
         course['_links'] = { 'self': url_for('.course', id=id) }
-        # TODO add link to book a presentation
+        for presentation in course['presentations']:
+            presentation['_links'] = { 'book': url_for('.presentation_book', id=presentation['id']) }
         return course
+
+
+class BookCourse(ServiceView):
+    """Book a course
+    """
+    methods = ['POST', 'OPTIONS']
+
+    def handle_request(self, id):
+        #supervisor_email = request.args. GET or POST?
+        service = CourseService.from_context()
+        oauth = OAuth1Service.from_context()
+        if oauth.authorized:
+            service.book_presentation(id, oauth.signer)
+        else:
+            # TODO auth required? redirect?
+            return {}
 
 
 class Bookings(ServiceView):

@@ -92,3 +92,19 @@ class CourseService(ProviderService):
                 pres.booking_endpoint = r['presentation_bookingEndpoint']
             course.presentations.append(pres)
         return course
+
+    def book_presentation(self, id, user_signer, supervisor_email=None, supervisor_message=None):
+        """Book a presentation
+        :param id: unique identifier of the presentation
+        :param user_signer: oAuth token of the user
+        :param supervisor_email: (optional) email of the supervisor
+        :param supervisor_message: (optional) message to the supervisor
+        :return tuple with success (True/False) and message
+        """
+        presentation = searcher.get_by_ids([id])
+        # TODO solr pres to object Presentation
+        provider = self.get_provider(presentation)
+        result = provider.book(presentation, user_signer, supervisor_email, supervisor_message)
+        print result
+        # example of result
+        return True, "You've been placed on a waiting list."
