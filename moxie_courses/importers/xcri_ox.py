@@ -114,6 +114,15 @@ class XcriOxHandler(sax.ContentHandler):
 
 
 class XcriOxImporter(object):
+    """Import a feed from an XCRI XML document
+    WARNING: as we do need to have ONE unique identifier, preferably not a URI as it needs to be exposed (e.g. GET parameter),
+    we took the decision to split the URI from data.ox (in the form of course.data.ox.ac.uk) and replace '/' by '-'.
+    This is done by the method _get_identifier of this class. This might cause some problems in the future as we have no
+    guarantee that this URI scheme will still work. Alternative solutions could be:
+    * to keep the URI and urlencode it when it is exposed
+    * to do a hash of the URI and work with this hash
+    Unfortunately both solutions are not very readable.
+    """
 
     def __init__(self, indexer, xcri_file, buffer_size=8192,
                  handler=XcriOxHandler):
