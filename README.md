@@ -46,4 +46,10 @@ You can do this via a Python shell:
     >>> from moxie-courses.tasks import import_xcri_ox
     >>> import_xcri_ox.delay()
 
+Methods available
+-----------------
+
+* `/subjects` lists all subjects
+* `/search?q=[PARAM]` where `[PARAM]` can be a full-text search or a more precise search, e.g. `course_subject:"Information Skills"` where "Information Skills" is a subject from the list of subjects available.
+
 
