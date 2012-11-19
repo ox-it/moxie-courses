@@ -8,12 +8,17 @@ class CourseService(ProviderService):
     default_search = '*'
 
     def list_courses(self, authorized=False):
+        # TODO what is this supposed to do? list? meaning search?
         courses = [{'name': 'SCRUM Master training 4.5'}]
         if authorized:
             courses.append({'name': 'Oxford Special Forces'})
         return courses
 
     def my_courses(self, signer):
+        """List all courses booked by an user
+        :param signer: OAuth signer token of the user
+        :return list of Course objects
+        """
         return chain([p.user_courses(signer=signer) for p in self.providers])
 
     def search_courses(self, search):

@@ -10,15 +10,17 @@ class ListCourses(ServiceView):
 
     def handle_request(self):
         # Get our services
+        # TODO list courses?
         courses = CourseService.from_context()
         oauth = OAuth1Service.from_context()
 
         course_list = courses.list_courses(authorized=oauth.authorized)
-        response = {'courses': course_list}
-        return response
+        return {'courses': course_list}
 
 
 class ListAllSubjects(ServiceView):
+    """List all courses subjects
+    """
     methods = ['GET', 'OPTIONS']
 
     def handle_request(self):
@@ -28,6 +30,8 @@ class ListAllSubjects(ServiceView):
 
 
 class SearchCourses(ServiceView):
+    """Search for courses by full-text search
+    """
     methods = ['GET', 'OPTIONS']
 
     def handle_request(self):
@@ -38,6 +42,8 @@ class SearchCourses(ServiceView):
 
 
 class Bookings(ServiceView):
+    """Display all bookings for a given user
+    """
     methods = ['GET', 'OPTIONS']
 
     def handle_request(self):
@@ -45,5 +51,4 @@ class Bookings(ServiceView):
         oauth = OAuth1Service.from_context()
 
         course_list = courses.my_courses(signer=oauth.signer)
-        response = {'courses': course_list}
-        return response
+        return {'courses': course_list}
