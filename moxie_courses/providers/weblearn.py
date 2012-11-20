@@ -24,9 +24,9 @@ class WebLearnProvider(object):
     def book(self, presentation, signer,
             supervisor_email=None,
             supervisor_message=None):
-        _, _, courseId = presentation.apply_link.rpartition('/')
-        payload = {'components': presentation.id,
-                'courseId': presentation.course.id}
+        _, _, courseId = presentation.booking_endpoint.rpartition('/')
+        _, _, components = presentation.id.rpartition('-')
+        payload = {'components': components, 'courseId': courseId}
         if supervisor_email and supervisor_message:
             payload['email'] = supervisor_email
             payload['message'] = supervisor_message
