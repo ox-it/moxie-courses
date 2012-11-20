@@ -1,10 +1,9 @@
 from itertools import chain
-from datetime import datetime
 
 from moxie.core.service import ProviderService
 from moxie.core.search import searcher, SearchServerException
 
-from moxie_courses.course import Course, Presentation
+from moxie_courses.solr import presentations_to_course_object, presentation_to_presentation_object
 
 
 class CourseService(ProviderService):
@@ -70,28 +69,10 @@ class CourseService(ProviderService):
         :param course_identifier: ID of the course
         :return list of presentations
         """
-        # TODO this has to be specified somewhere else
-        SOLR_DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
         q = { 'q': '*:*',
               'fq': 'course_identifier:{id}'.format(id=course_identifier)}
         results = searcher.search(q)
-        ref = results.results[0]
-        # TODO should be in an helper "solr to objects"
-        course = Course(ref['course_identifier'])
-        course.title = ref['course_title']
-        course.description = ref['course_description']
-        course.provider = ref['provider_title']
-        course.subjects = ref['course_subject']
-        for r in results.results:
-            pres = Presentation(r['presentation_identifier'], course)
-            if 'presentation_start' in r:
-                pres.start = datetime.strptime(r['presentation_start'], SOLR_DATE_FORMAT)
-            if 'presentation_end' in r:
-                pres.end = datetime.strptime(r['presentation_end'], SOLR_DATE_FORMAT)
-            if 'presentation_bookingEndpoint' in r:
-                pres.booking_endpoint = r['presentation_bookingEndpoint']
-            course.presentations.append(pres)
-        return course
+        return presentations_to_course_object(results.results)
 
     def book_presentation(self, id, user_signer, supervisor_email=None, supervisor_message=None):
         """Book a presentation
@@ -101,8 +82,8 @@ class CourseService(ProviderService):
         :param supervisor_message: (optional) message to the supervisor
         :return tuple with success (True/False) and message
         """
-        presentation = searcher.get_by_ids([id])
-        # TODO solr pres to object Presentation
+        result = searcher.get_by_ids([id])
+        presentation = presentation_to_presentation_object(result)
         provider = self.get_provider(presentation)
         result = provider.book(presentation, user_signer, supervisor_email, supervisor_message)
         print result
