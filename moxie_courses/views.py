@@ -36,8 +36,8 @@ class SearchCourses(ServiceView):
 
     def halify(self, resource):
         for result in resource:
-            result[LINKS_PROPERTY] = \
-                { 'self':
+            result[LINKS_PROPERTY] = {
+                'self':
                     { 'href': url_for('.course', id=result['id'])}
                 }
         return resource
@@ -54,13 +54,13 @@ class CourseDetails(ServiceView):
         return self.halify(course)
 
     def halify(self, resource):
-        resource[LINKS_PROPERTY] = \
-            { 'self':
+        resource[LINKS_PROPERTY] = {
+            'self':
                   { 'href': url_for('.course', id=resource['id']) }
             }
         for presentation in resource['presentations']:
-            presentation[LINKS_PROPERTY] = \
-            { 'book':
+            presentation[LINKS_PROPERTY] = {
+                'book':
                   { 'href': url_for('.presentation_book', id=presentation['id']),
                     'method': 'POST',   # NOTE we're going off specification here, it's an experiment
                   },
@@ -97,8 +97,8 @@ class Bookings(ServiceView):
 
     def halify(self, resource):
         for course in resource:
-            course[LINKS_PROPERTY] = \
-                { 'self':
+            course[LINKS_PROPERTY] = {
+                'self':
                         { 'href': url_for('.course', id=course['id']) }
                 }
         return resource
