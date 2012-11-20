@@ -17,6 +17,11 @@ class ListAllSubjects(ServiceView):
         subjects = courses.list_courses_subjects()
         return {'subjects': subjects}
 
+    def halify(self, resource):
+        pass
+        # TODO should we have _links for this? technically yes but it does a SEARCH,
+        # it doesn't point to a resource...
+
 
 class SearchCourses(ServiceView):
     """Search for courses by full-text search
@@ -27,9 +32,15 @@ class SearchCourses(ServiceView):
         query = request.args.get('q', '')
         courses = CourseService.from_context()
         results = courses.search_courses(query)
-        for result in results:
-            result[LINKS_PROPERTY] = { 'self': url_for('.course', id=result['id'])}
-        return {'results': results}
+        return {'results': self.halify(results)}
+
+    def halify(self, resource):
+        for result in resource:
+            result[LINKS_PROPERTY] = \
+                { 'self':
+                    { 'href': url_for('.course', id=result['id'])}
+                }
+        return resource
 
 
 class CourseDetails(ServiceView):
@@ -40,10 +51,21 @@ class CourseDetails(ServiceView):
     def handle_request(self, id):
         service = CourseService.from_context()
         course = service.list_presentations_for_course(id)._to_json()
-        course[LINKS_PROPERTY] = { 'self': url_for('.course', id=id) }
-        for presentation in course['presentations']:
-            presentation[LINKS_PROPERTY] = { 'book': url_for('.presentation_book', id=presentation['id']) }
-        return course
+        return self.halify(course)
+
+    def halify(self, resource):
+        resource[LINKS_PROPERTY] = \
+            { 'self':
+                  { 'href': url_for('.course', id=resource['id']) }
+            }
+        for presentation in resource['presentations']:
+            presentation[LINKS_PROPERTY] = \
+            { 'book':
+                  { 'href': url_for('.presentation_book', id=presentation['id']),
+                    'method': 'POST',   # NOTE we're going off specification here, it's an experiment
+                  },
+            }   # TODO should a presentation have an URL? (self)
+        return resource
 
 
 class BookCourse(ServiceView):
@@ -71,4 +93,12 @@ class Bookings(ServiceView):
         oauth = OAuth1Service.from_context()
 
         course_list = courses.my_courses(signer=oauth.signer)
-        return {'courses': course_list}
+        return {'courses': self.halify(course_list)}
+
+    def halify(self, resource):
+        for course in resource:
+            course[LINKS_PROPERTY] = \
+                { 'self':
+                        { 'href': url_for('.course', id=course['id']) }
+                }
+        return resource
