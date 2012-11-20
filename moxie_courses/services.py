@@ -3,7 +3,7 @@ from itertools import chain
 from moxie.core.service import ProviderService
 from moxie.core.search import searcher, SearchServerException
 
-from moxie_courses.solr import presentations_to_course_object
+from moxie_courses.solr import presentations_to_course_object, presentation_to_presentation_object
 
 
 class CourseService(ProviderService):
@@ -82,8 +82,8 @@ class CourseService(ProviderService):
         :param supervisor_message: (optional) message to the supervisor
         :return tuple with success (True/False) and message
         """
-        presentation = searcher.get_by_ids([id])
-        # TODO solr pres to object Presentation
+        result = searcher.get_by_ids([id])
+        presentation = presentation_to_presentation_object(result)
         provider = self.get_provider(presentation)
         result = provider.book(presentation, user_signer, supervisor_email, supervisor_message)
         print result

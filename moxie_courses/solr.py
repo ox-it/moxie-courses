@@ -26,3 +26,24 @@ def presentations_to_course_object(solr_response):
             presentation.booking_endpoint = result['presentation_bookingEndpoint']
         course.presentations.append(presentation)
     return course
+
+
+def presentation_to_presentation_object(solr_response):
+    """Transform one document from Solr as a Presentation/Course object
+    :param solr_response: document from Solr
+    :return Presentation/Course object
+    """
+    course = Course(solr_response['course_identifier'])
+    course.title = solr_response['course_title']
+    course.description = solr_response['course_description']
+    course.provider = solr_response['provider_title']
+    course.subjects = solr_response['course_subject']
+    presentation = Presentation(solr_response['presentation_identifier'], course)
+    if 'presentation_start' in solr_response:
+        presentation.start = datetime.strptime(solr_response['presentation_start'], SOLR_DATE_FORMAT)
+    if 'presentation_end' in solr_response:
+        presentation.end = datetime.strptime(solr_response['presentation_end'], SOLR_DATE_FORMAT)
+    if 'presentation_bookingEndpoint' in solr_response:
+        presentation.booking_endpoint = solr_response['presentation_bookingEndpoint']
+    course.presentations.append(presentation)
+    return course
