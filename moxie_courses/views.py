@@ -7,19 +7,6 @@ from .services import CourseService
 LINKS_PROPERTY = '_links'
 
 
-class ListCourses(ServiceView):
-    methods = ['GET', 'OPTIONS']
-
-    def handle_request(self):
-        # Get our services
-        # TODO list courses?
-        courses = CourseService.from_context()
-        oauth = OAuth1Service.from_context()
-
-        course_list = courses.list_courses(authorized=oauth.authorized)
-        return {'courses': course_list}
-
-
 class ListAllSubjects(ServiceView):
     """List all courses subjects
     """
