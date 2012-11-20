@@ -74,11 +74,13 @@ class BookCourse(ServiceView):
     methods = ['POST', 'OPTIONS']
 
     def handle_request(self, id):
-        #supervisor_email = request.args. GET or POST?
         service = CourseService.from_context()
         oauth = OAuth1Service.from_context()
         if oauth.authorized:
-            service.book_presentation(id, oauth.signer)
+            booking = request.json
+            supervisor_email = booking.get('supervisor_email', None)
+            supervisor_message = booking.get('supervisor_message', None)
+            service.book_presentation(id, oauth.signer, supervisor_email, supervisor_message)
         else:
            abort(401)
 
