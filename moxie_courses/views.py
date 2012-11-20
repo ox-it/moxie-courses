@@ -4,6 +4,8 @@ from moxie.core.views import ServiceView
 from moxie.oauth.services import OAuth1Service
 from .services import CourseService
 
+LINKS_PROPERTY = '_links'
+
 
 class ListCourses(ServiceView):
     methods = ['GET', 'OPTIONS']
@@ -39,7 +41,7 @@ class SearchCourses(ServiceView):
         courses = CourseService.from_context()
         results = courses.search_courses(query)
         for result in results:
-            result['_links'] = { 'self': url_for('.course', id=result['id'])}
+            result[LINKS_PROPERTY] = { 'self': url_for('.course', id=result['id'])}
         return {'results': results}
 
 
@@ -51,9 +53,9 @@ class CourseDetails(ServiceView):
     def handle_request(self, id):
         service = CourseService.from_context()
         course = service.list_presentations_for_course(id)._to_json()
-        course['_links'] = { 'self': url_for('.course', id=id) }
+        course[LINKS_PROPERTY] = { 'self': url_for('.course', id=id) }
         for presentation in course['presentations']:
-            presentation['_links'] = { 'book': url_for('.presentation_book', id=presentation['id']) }
+            presentation[LINKS_PROPERTY] = { 'book': url_for('.presentation_book', id=presentation['id']) }
         return course
 
 
