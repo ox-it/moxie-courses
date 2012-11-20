@@ -1,4 +1,4 @@
-from flask import request, url_for
+from flask import request, url_for, abort
 
 from moxie.core.views import ServiceView
 from moxie.oauth.services import OAuth1Service
@@ -69,8 +69,7 @@ class BookCourse(ServiceView):
         if oauth.authorized:
             service.book_presentation(id, oauth.signer)
         else:
-            # TODO auth required? redirect?
-            return {}
+           abort(401)
 
 
 class Bookings(ServiceView):
