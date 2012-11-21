@@ -15,12 +15,31 @@ class ListAllSubjects(ServiceView):
     def handle_request(self):
         courses = CourseService.from_context()
         subjects = courses.list_courses_subjects()
-        return {'subjects': subjects}
+        return {'subjects': self.halify_subjects(subjects),
+                LINKS_PROPERTY: {
+                    'self': {
+                        'href': url_for('.subjects'),
+                        },
+                    'find': {
+                        'href': url_for('.search') + "?q=course_subject:\"{?subject_name}\"",
+                        'templated': True,
+                    },
+                    'search': {
+                        'href': url_for('.search') + "?q={?query}",
+                        'templated': True,
+                    },
+                }
+        }
 
-    def halify(self, resource):
-        pass
-        # TODO should we have _links for this? technically yes but it does a SEARCH,
-        # it doesn't point to a resource...
+    def halify_subjects(self, subjects):
+        elements = list()
+        for k, v in subjects.items():
+            elements.append({
+                'name': k,
+                'count': v,
+                LINKS_PROPERTY: { 'list': { 'href': url_for('.search', q='course_subject:"{0}"'.format(k)) }}
+            })
+        return elements
 
 
 class SearchCourses(ServiceView):
@@ -32,7 +51,17 @@ class SearchCourses(ServiceView):
         query = request.args.get('q', '')
         courses = CourseService.from_context()
         results = courses.search_courses(query)
-        return {'results': self.halify(results)}
+        return {'results': self.halify(results),
+                LINKS_PROPERTY: {
+                    'self': {
+                        'href': url_for('.search', q=query)
+                    },
+                    'search': {
+                        'href': url_for('.search') + "?q={?query}",
+                        'templated': True,
+                        },
+                }
+        }
 
     def halify(self, resource):
         for result in resource:
@@ -80,7 +109,11 @@ class BookCourse(ServiceView):
             booking = request.json
             supervisor_email = booking.get('supervisor_email', None)
             supervisor_message = booking.get('supervisor_message', None)
-            service.book_presentation(id, oauth.signer, supervisor_email, supervisor_message)
+            result = service.book_presentation(id, oauth.signer, supervisor_email, supervisor_message)
+            if result:
+                return 200
+            else:
+                return abort(409)   # TODO have a better response in case of failure (not possible atm)
         else:
            abort(401)
 
