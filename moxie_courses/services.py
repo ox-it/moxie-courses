@@ -80,12 +80,13 @@ class CourseService(ProviderService):
         :param user_signer: oAuth token of the user
         :param supervisor_email: (optional) email of the supervisor
         :param supervisor_message: (optional) message to the supervisor
-        :return tuple with success (True/False) and message
+        :return True if booking succeeded else False
         """
         result = searcher.get_by_ids([id])
         presentation = presentation_to_presentation_object(result)
         provider = self.get_provider(presentation)
-        result = provider.book(presentation, user_signer, supervisor_email, supervisor_message)
-        print result
-        # example of result
-        return True, "You've been placed on a waiting list."
+        # TODO this logic should be moved inside the provider
+        response = provider.book(presentation, user_signer, supervisor_email, supervisor_message)
+        if response.status_code == 200:
+            return True
+        return False

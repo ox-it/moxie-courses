@@ -80,7 +80,11 @@ class BookCourse(ServiceView):
             booking = request.json
             supervisor_email = booking.get('supervisor_email', None)
             supervisor_message = booking.get('supervisor_message', None)
-            service.book_presentation(id, oauth.signer, supervisor_email, supervisor_message)
+            result = service.book_presentation(id, oauth.signer, supervisor_email, supervisor_message)
+            if result:
+                return 200
+            else:
+                return abort(409)   # TODO have a better response in case of failure (not possible atm)
         else:
            abort(401)
 
