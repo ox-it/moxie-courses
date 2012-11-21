@@ -1,4 +1,4 @@
-from itertools import chain
+from itertools import chain, izip
 
 from moxie.core.service import ProviderService
 from moxie.core.search import searcher, SearchServerException
@@ -49,20 +49,19 @@ class CourseService(ProviderService):
 
     def list_courses_subjects(self):
         """List all subjects from courses
-        :return list of subjects
+        :return dict with subject, count of presentations for this subject
         """
         q = { 'facet': 'true',
-              'facet.field': 'course_subject'
+              'facet.field': 'course_subject',
+              'q': '*:*',
+              'rows': '0',  # we don't need any actual document
               }
         results = searcher.search(q)
         facets = results.as_dict['facet_counts']['facet_fields']['course_subject']
-        # Solr returns a list as ['skill A', 0, 'skill B', 0, 'skill C', 0] (0 being a count of documents
-        # matching, 0 in our case because we do not do any query
-        # TODO there must be a nicer way of doing that
-        subjects = []
-        for facet in xrange(0, len(facets), 2):
-            subjects.append(facets[facet])
-        return subjects
+        # Solr returns a list as ['skill A', 2, 'skill B', 5, 'skill C', 3] (x being a count of documents
+        # matching, total number of presentations available for this subject)
+        i = iter(facets)
+        return dict(izip(i, i))
 
     def list_presentations_for_course(self, course_identifier):
         """List all presentations for a given course
