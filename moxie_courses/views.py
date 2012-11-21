@@ -15,12 +15,26 @@ class ListAllSubjects(ServiceView):
     def handle_request(self):
         courses = CourseService.from_context()
         subjects = courses.list_courses_subjects()
-        return {'subjects': subjects}
+        return {'subjects': self.halify_subjects(subjects),
+                LINKS_PROPERTY: {
+                    'self': {
+                        'href': url_for('.subjects'),
+                        },
+                    'find': {
+                        'href': url_for('.search') + "?q=course_subject:\"{?subject_name}\"",
+                        'templated': True,
+                    },
+                    'search': {
+                        'href': url_for('.search') + "?q={?query}",
+                        'templated': True,
+                    },
+                }
+        }
 
-    def halify(self, resource):
-        pass
-        # TODO should we have _links for this? technically yes but it does a SEARCH,
-        # it doesn't point to a resource...
+    def halify_subjects(self, subjects):
+        for k, v in subjects.items():
+            subjects[k] = { 'count': v, LINKS_PROPERTY: { 'list': { 'href': url_for('.search', q='course_subject:"{0}"'.format(k)) }}}
+        return subjects
 
 
 class SearchCourses(ServiceView):
@@ -32,7 +46,17 @@ class SearchCourses(ServiceView):
         query = request.args.get('q', '')
         courses = CourseService.from_context()
         results = courses.search_courses(query)
-        return {'results': self.halify(results)}
+        return {'results': self.halify(results),
+                LINKS_PROPERTY: {
+                    'self': {
+                        'href': url_for('.search', q=query)
+                    },
+                    'search': {
+                        'href': url_for('.search') + "?q={?query}",
+                        'templated': True,
+                        },
+                }
+        }
 
     def halify(self, resource):
         for result in resource:
