@@ -32,9 +32,14 @@ class ListAllSubjects(ServiceView):
         }
 
     def halify_subjects(self, subjects):
+        elements = list()
         for k, v in subjects.items():
-            subjects[k] = { 'count': v, LINKS_PROPERTY: { 'list': { 'href': url_for('.search', q='course_subject:"{0}"'.format(k)) }}}
-        return subjects
+            elements.append({
+                'name': k,
+                'count': v,
+                LINKS_PROPERTY: { 'list': { 'href': url_for('.search', q='course_subject:"{0}"'.format(k)) }}
+            })
+        return elements
 
 
 class SearchCourses(ServiceView):
