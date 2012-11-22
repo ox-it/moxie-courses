@@ -23,9 +23,10 @@ class CourseService(ProviderService):
         """
         return chain([p.user_courses(signer=signer) for p in self.providers])
 
-    def search_courses(self, search):
+    def search_courses(self, search, all=False):
         """Search for courses
         :param search: search query (FTS)
+        :param all: (optional) all courses even starting in the past
         :return list of courses (titles and identifiers)
         """
         # TODO search parameters for Solr. Should be made generic. Discuss.
@@ -35,6 +36,8 @@ class CourseService(ProviderService):
              'group.count': '1',
              'fl': 'course_title,course_identifier,course_description',
              }
+        if not all:
+            q['q'] += ' AND presentation_start:[NOW-1DAY TO *]'
         try:
             results = searcher.search(q)
         except SearchServerException as sse:
@@ -47,15 +50,20 @@ class CourseService(ProviderService):
             groups.append(g)
         return groups
 
-    def list_courses_subjects(self):
+    def list_courses_subjects(self, all=False):
         """List all subjects from courses
+        :param all: (optional) list ALL subjects, by default only subjects that have actual presentations in the future
         :return dict with subject, count of presentations for this subject
         """
         q = { 'facet': 'true',
               'facet.field': 'course_subject',
-              'q': '*:*',
+              'facet.mincount': '1',
               'rows': '0',  # we don't need any actual document
               }
+        if all:
+            q['q'] = '*:*'
+        else:
+            q['q'] = 'presentation_start:[NOW-1DAY TO *]'
         results = searcher.search(q)
         facets = results.as_dict['facet_counts']['facet_fields']['course_subject']
         # Solr returns a list as ['skill A', 2, 'skill B', 5, 'skill C', 3] (x being a count of documents
@@ -63,13 +71,18 @@ class CourseService(ProviderService):
         i = iter(facets)
         return dict(izip(i, i))
 
-    def list_presentations_for_course(self, course_identifier):
+    def list_presentations_for_course(self, course_identifier, all=False):
         """List all presentations for a given course
         :param course_identifier: ID of the course
+        :param all: (optional) list ALL presentations, by default only presentations that start in the future
         :return list of presentations
         """
-        q = { 'q': '*:*',
-              'fq': 'course_identifier:{id}'.format(id=course_identifier)}
+        q = { 'fq': 'course_identifier:{id}'.format(id=course_identifier),
+               'sort': 'presentation_start asc' }
+        if all:
+            q['q'] = '*:*'
+        else:
+            q['q'] = 'presentation_start:[NOW-1DAY TO *]'
         results = searcher.search(q)
         return presentations_to_course_object(results.results)
 
