@@ -28,11 +28,11 @@ Configuration from moxie (example):
         courses:
             CourseService: {}
             OAuth1Service:
-                oauth_endpoint: 'http://cod.oucs.ox.ac.uk:30080/oauth-tool/'
-                client_identifier: 'mobileox-dev'
-                client_secret: 'Ms1!S/m0D'
+                oauth_endpoint: 'OAUTH_ENDPOINT'
+                client_identifier: 'OAUTH_IDENTIFIER'
+                client_secret: 'OAUTH_SECRET'
             SearchService:
-                backend_uri: 'solr+http://localhost:8983/solr/collection1'
+                backend_uri: 'solr+http://127.0.0.1:8080/solr/courses'
 
 
 Running the application
