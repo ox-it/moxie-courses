@@ -102,6 +102,8 @@ class BookCourse(ServiceView):
     """
     methods = ['POST', 'OPTIONS']
 
+    cors_allow_credentials = True
+
     def handle_request(self, id):
         service = CourseService.from_context()
         oauth = OAuth1Service.from_context()
