@@ -1,8 +1,11 @@
+import logging
 import requests
 import urlparse
 import datetime
 
 from moxie_courses.course import Course, Presentation
+
+logger = logging.getLogger(__name__)
 
 
 class WebLearnProvider(object):
@@ -35,6 +38,7 @@ class WebLearnProvider(object):
 
     def user_courses(self, signer):
         response = requests.get(self.user_courses_url, auth=signer)
+        logger.debug(response.text)
         return self._parse_list_response(response.json)
 
     @staticmethod
@@ -46,20 +50,20 @@ class WebLearnProvider(object):
         courses = []
         for c in response:
             course = Course(
-                    id=c['group']['id'],
+                    id=c['group']['courseId'],
                     title=c['group']['title'],
-                    description=c['group']['description'],
+                    description="", # c['group']['description']
                     provider=c['group']['department'],
                     subjects=[cat['name'] for cat in c['group']['categories']],
                     )
             presentations = []
             for component in c['components']:
                 presentations.append(Presentation(
-                    id=component['id'],
+                    id=component['presentationId'],
                     course=course,
                     start=self.datetime_from_ms(component['starts']),
                     end=self.datetime_from_ms(component['ends']),
-                    location=component['location'],
+                    location="",    # component['location']
                     ))
             course.presentations = presentations
             courses.append(course)
