@@ -93,13 +93,12 @@ class CourseDetails(ServiceView):
                   { 'href': url_for('.course', id=resource['id']) }
             }
         for presentation in resource['presentations']:
+            presentation[LINKS_PROPERTY] = {}
             if 'booking_enpoint' in presentation:
-                presentation[LINKS_PROPERTY] = {
-                    'book':
-                      { 'href': url_for('.presentation_book', id=presentation['id']),
+                presentation[LINKS_PROPERTY]['book'] = {
+                        'href': url_for('.presentation_book', id=presentation['id']),
                         'method': 'POST',   # NOTE we're going off specification here, it's an experiment
-                      },
-                }   # TODO should a presentation have an URL? (self)
+                },
         return resource
 
 
