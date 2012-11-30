@@ -21,7 +21,7 @@ class CourseService(ProviderService):
         :param signer: OAuth signer token of the user
         :return list of Course objects
         """
-        return chain(*[p.user_courses(signer=signer) for p in self.providers])
+        return list(chain(*[p.user_courses(signer=signer) for p in self.providers]))
 
     def search_courses(self, search, all=False):
         """Search for courses
