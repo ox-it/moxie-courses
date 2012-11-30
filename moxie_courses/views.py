@@ -94,11 +94,11 @@ class CourseDetails(ServiceView):
             }
         for presentation in resource['presentations']:
             presentation[LINKS_PROPERTY] = {}
-            if 'booking_enpoint' in presentation:
+            if 'booking_endpoint' in presentation:
                 presentation[LINKS_PROPERTY]['book'] = {
                         'href': url_for('.presentation_book', id=presentation['id']),
                         'method': 'POST',   # NOTE we're going off specification here, it's an experiment
-                },
+                }
         return resource
 
 
