@@ -38,8 +38,14 @@ class WebLearnProvider(object):
 
     def user_courses(self, signer):
         response = requests.get(self.user_courses_url, auth=signer)
-        logger.debug(response.text)
-        return self._parse_list_response(response.json)
+        if response.ok:
+            return self._parse_list_response(response.json)
+        else:
+            logger.error("Unable to get user's courses.", extra={
+                'status_code': response.status_code,
+                'content': response.text
+            })
+        return []
 
     @staticmethod
     def datetime_from_ms(ms):
