@@ -18,7 +18,7 @@ class WebLearnProvider(object):
         self.user_courses_url = endpoint + 'signup/cobomo/my'
 
     def handles(self, presentation):
-        hn = urlparse.urlparse(presentation.apply_link).hostname
+        hn = urlparse.urlparse(presentation.booking_endpoint).hostname
         return (hn in self.supported_hostnames)
 
     def book(self, presentation, signer,
