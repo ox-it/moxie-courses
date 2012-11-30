@@ -136,7 +136,7 @@ class Bookings(ServiceView):
         oauth = OAuth1Service.from_context()
 
         course_list = courses.my_courses(signer=oauth.signer)
-        return {'courses': self.halify(course_list)}
+        return {'courses': self.halify([course._to_json() for course in course_list])}
 
     def halify(self, resource):
         for course in resource:

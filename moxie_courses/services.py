@@ -99,7 +99,8 @@ class CourseService(ProviderService):
         :return True if booking succeeded else False
         """
         result = searcher.get_by_ids([id])
-        presentation = presentation_to_presentation_object(result.results[0])
+        course = presentation_to_presentation_object(result.results[0])
+        presentation = course.presentations[0]
         provider = self.get_provider(presentation)
         if not provider:
             logger.info("No provider found to book presentation.", extra={'presentation_id': id})
