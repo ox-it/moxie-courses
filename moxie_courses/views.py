@@ -1,8 +1,13 @@
+import logging
+
 from flask import request, url_for, abort
 
 from moxie.core.views import ServiceView
 from moxie.oauth.services import OAuth1Service
 from .services import CourseService
+
+logger = logging.getLogger(__name__)
+
 
 LINKS_PROPERTY = '_links'
 
@@ -88,12 +93,13 @@ class CourseDetails(ServiceView):
                   { 'href': url_for('.course', id=resource['id']) }
             }
         for presentation in resource['presentations']:
-            presentation[LINKS_PROPERTY] = {
-                'book':
-                  { 'href': url_for('.presentation_book', id=presentation['id']),
-                    'method': 'POST',   # NOTE we're going off specification here, it's an experiment
-                  },
-            }   # TODO should a presentation have an URL? (self)
+            if 'booking_enpoint' in presentation:
+                presentation[LINKS_PROPERTY] = {
+                    'book':
+                      { 'href': url_for('.presentation_book', id=presentation['id']),
+                        'method': 'POST',   # NOTE we're going off specification here, it's an experiment
+                      },
+                }   # TODO should a presentation have an URL? (self)
         return resource
 
 
@@ -103,6 +109,7 @@ class BookCourse(ServiceView):
     methods = ['POST', 'OPTIONS']
 
     cors_allow_credentials = True
+    cors_allow_headers = "Content-Type"
 
     def handle_request(self, id):
         service = CourseService.from_context()

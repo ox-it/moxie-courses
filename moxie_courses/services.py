@@ -1,9 +1,13 @@
+import logging
+
 from itertools import chain, izip
 
 from moxie.core.service import ProviderService
 from moxie.core.search import searcher, SearchServerException
 
 from moxie_courses.solr import presentations_to_course_object, presentation_to_presentation_object
+
+logger = logging.getLogger(__name__)
 
 
 class CourseService(ProviderService):
@@ -95,8 +99,11 @@ class CourseService(ProviderService):
         :return True if booking succeeded else False
         """
         result = searcher.get_by_ids([id])
-        presentation = presentation_to_presentation_object(result)
+        presentation = presentation_to_presentation_object(result.results[0])
         provider = self.get_provider(presentation)
+        if not provider:
+            logger.info("No provider found to book presentation.", extra={'presentation_id': id})
+            return False
         # TODO this logic should be moved inside the provider
         response = provider.book(presentation, user_signer, supervisor_email, supervisor_message)
         if response.status_code == 200:
