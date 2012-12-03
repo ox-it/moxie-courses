@@ -131,6 +131,8 @@ class Bookings(ServiceView):
     """
     methods = ['GET', 'OPTIONS']
 
+    cors_allow_credentials = True
+
     def handle_request(self):
         courses = CourseService.from_context()
         oauth = OAuth1Service.from_context()
