@@ -105,8 +105,4 @@ class CourseService(ProviderService):
         if not provider:
             logger.info("No provider found to book presentation.", extra={'presentation_id': id})
             return False
-        # TODO this logic should be moved inside the provider
-        response = provider.book(presentation, user_signer, supervisor_email, supervisor_message)
-        if response.status_code == 200:
-            return True
-        return False
+        return provider.book(presentation, user_signer, supervisor_email, supervisor_message)

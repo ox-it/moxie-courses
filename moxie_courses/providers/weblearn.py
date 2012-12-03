@@ -24,17 +24,28 @@ class WebLearnProvider(object):
         hn = urlparse.urlparse(presentation.booking_endpoint).hostname
         return (hn in self.supported_hostnames)
 
-    def book(self, presentation, signer,
-            supervisor_email=None,
+    def book(self, presentation, signer, supervisor_email=None,
             supervisor_message=None):
+        """Book a presentation on WL
+        :param presentation: presentation object
+        :param signer: oAuth signer
+        :param supervisor_email: Email of the supervisor
+        :param supervisor_message: Message to the supervisor
+        :return True if booking has succeeded else False
+        """
         _, _, courseId = presentation.booking_endpoint.rpartition('/')
         _, _, components = presentation.id.rpartition('-')
         payload = {'components': components, 'courseId': courseId}
         if supervisor_email and supervisor_message:
             payload['email'] = supervisor_email
             payload['message'] = supervisor_message
-        return requests.post(self.booking_url, data=payload,
+        response = requests.post(self.booking_url, data=payload,
                 auth=signer)
+        # TODO should have an error message in case booking failed
+        if response.status_code == 200:
+            return True
+        else:
+            return False
 
     def user_courses(self, signer):
         response = requests.get(self.user_courses_url, auth=signer)
