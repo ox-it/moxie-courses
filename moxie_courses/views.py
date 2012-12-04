@@ -84,22 +84,28 @@ class CourseDetails(ServiceView):
 
     def handle_request(self, id):
         service = CourseService.from_context()
-        course = service.list_presentations_for_course(id)._to_json()
+        course = service.list_presentations_for_course(id)
         return self.halify(course)
 
     def halify(self, resource):
-        resource[LINKS_PROPERTY] = {
+        representation = resource._to_json()
+        representation[LINKS_PROPERTY] = {
             'self':
-                  { 'href': url_for('.course', id=resource['id']) }
+                  { 'href': url_for('.course', id=resource.id) }
             }
-        for presentation in resource['presentations']:
-            presentation[LINKS_PROPERTY] = {}
-            if 'booking_endpoint' in presentation:
-                presentation[LINKS_PROPERTY]['book'] = {
-                        'href': url_for('.presentation_book', id=presentation['id']),
+        if 'presentations' in representation:
+            representation['presentations'] = []
+            for presentation in resource.presentations:
+                rep_pres = presentation._to_json()
+                rep_pres[LINKS_PROPERTY] = {}
+                # Only add the "book" link if the presentation is bookable
+                if presentation.booking_endpoint and presentation.bookable:
+                    rep_pres[LINKS_PROPERTY]['book'] = {
+                        'href': url_for('.presentation_book', id=presentation.id),
                         'method': 'POST',   # NOTE we're going off specification here, it's an experiment
-                }
-        return resource
+                    }
+                representation['presentations'].append(rep_pres)
+        return representation
 
 
 class BookCourse(ServiceView):
