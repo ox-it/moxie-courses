@@ -45,6 +45,7 @@ class WebLearnProvider(object):
         if response.status_code == 200:
             return True
         else:
+            logger.warning(response.text)
             return False
 
     def user_courses(self, signer):
