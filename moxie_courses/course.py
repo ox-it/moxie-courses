@@ -57,6 +57,4 @@ class Presentation(object):
             response['apply_from'] = self.apply_from.isoformat()
         if self.apply_until:
             response['apply_until'] = self.apply_until.isoformat()
-        if self.booking_endpoint:
-            response['booking_endpoint'] = self.booking_endpoint
         return response
