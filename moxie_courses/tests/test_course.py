@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime
 
 from moxie_courses.course import Course, Presentation
 
@@ -14,3 +15,14 @@ class CourseTestCase(unittest.TestCase):
         c2 = Course("c2_id")
         c2.presentations.append(Presentation("p_id_3", c2))
         self.assertEqual(len(c2.presentations), 1)
+
+    def test_presentation_bookable(self):
+        start = datetime(2012, 12, 01)
+        end = datetime(2012, 12, 15)
+        course = Course("c")
+        p1 = Presentation("p1", course, apply_from=start, apply_until=end, date_apply=datetime(2012, 12, 10))
+        p2 = Presentation("p2", course, apply_from=start, apply_until=end, date_apply=datetime(2012, 11, 30))
+        p3 = Presentation("p3", course)     # no apply info, shouldn't be bookable
+        self.assertEqual(p1.bookable, True)
+        self.assertEqual(p2.bookable, False)
+        self.assertEqual(p3.bookable, False)
