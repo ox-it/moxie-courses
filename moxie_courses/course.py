@@ -1,12 +1,12 @@
 class Course(object):
     def __init__(self, id, title="", description="", provider="",
-            subjects=[], presentations=[]):
+            subjects=None, presentations=None):
         self.id = id
         self.title = title
         self.description = description
         self.provider = provider
-        self.subjects = subjects
-        self.presentations = presentations
+        self.subjects = subjects or []
+        self.presentations = presentations or []
 
     def _to_json(self):
         return {
