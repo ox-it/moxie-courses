@@ -39,7 +39,7 @@ class Presentation(object):
 
     @property
     def bookable(self):
-        if self.apply_from and self.apply_until:
+        if self.apply_from and self.apply_until and self.booking_endpoint:
             return self.apply_from < self.date_apply < self.apply_until
         return False
 

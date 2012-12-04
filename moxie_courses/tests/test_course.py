@@ -20,9 +20,11 @@ class CourseTestCase(unittest.TestCase):
         start = datetime(2012, 12, 01)
         end = datetime(2012, 12, 15)
         course = Course("c")
-        p1 = Presentation("p1", course, apply_from=start, apply_until=end, date_apply=datetime(2012, 12, 10))
+        p1 = Presentation("p1", course, apply_from=start, apply_until=end, date_apply=datetime(2012, 12, 10), booking_endpoint="http://fake-endpoint.com")
         p2 = Presentation("p2", course, apply_from=start, apply_until=end, date_apply=datetime(2012, 11, 30))
         p3 = Presentation("p3", course)     # no apply info, shouldn't be bookable
+        p4 = Presentation("p1", course, apply_from=start, apply_until=end, date_apply=datetime(2012, 12, 10))   # no booking endpoint, shouldn't be bookable
         self.assertEqual(p1.bookable, True)
         self.assertEqual(p2.bookable, False)
         self.assertEqual(p3.bookable, False)
+        self.assertEqual(p4.bookable, False)
