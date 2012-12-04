@@ -22,6 +22,10 @@ def presentations_to_course_object(solr_response):
             presentation.start = datetime.strptime(result['presentation_start'], SOLR_DATE_FORMAT)
         if 'presentation_end' in result:
             presentation.end = datetime.strptime(result['presentation_end'], SOLR_DATE_FORMAT)
+        if 'presentation_applyFrom' in result:
+            presentation.apply_from = datetime.strptime(result['presentation_applyFrom'], SOLR_DATE_FORMAT)
+        if 'presentation_applyUntil' in result:
+            presentation.apply_until = datetime.strptime(result['presentation_applyUntil'], SOLR_DATE_FORMAT)
         if 'presentation_bookingEndpoint' in result:
             presentation.booking_endpoint = result['presentation_bookingEndpoint']
         course.presentations.append(presentation)
@@ -43,6 +47,10 @@ def presentation_to_presentation_object(solr_response):
         presentation.start = datetime.strptime(solr_response['presentation_start'], SOLR_DATE_FORMAT)
     if 'presentation_end' in solr_response:
         presentation.end = datetime.strptime(solr_response['presentation_end'], SOLR_DATE_FORMAT)
+    if 'presentation_applyFrom' in solr_response:
+        presentation.apply_from = datetime.strptime(solr_response['presentation_applyFrom'], SOLR_DATE_FORMAT)
+    if 'presentation_applyUntil' in solr_response:
+        presentation.apply_until = datetime.strptime(solr_response['presentation_applyUntil'], SOLR_DATE_FORMAT)
     if 'presentation_bookingEndpoint' in solr_response:
         presentation.booking_endpoint = solr_response['presentation_bookingEndpoint']
     course.presentations.append(presentation)
