@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from moxie_courses.course import Course, Presentation
+from moxie_courses.domain import Course, Presentation
 
 SOLR_DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
