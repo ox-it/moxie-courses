@@ -5,7 +5,9 @@ from flask import request, url_for, abort
 from moxie.core.views import ServiceView, accepts
 from moxie.oauth.services import OAuth1Service
 from moxie.core.representations import JSON, HAL_JSON
-from .representations import JsonSubjectsRepresentation, HalJsonSubjectsRepresentation
+from .representations import (JsonSubjectsRepresentation, HalJsonSubjectsRepresentation,
+        JsonCoursesRepresentation, HalJsonCoursesRepresentation,
+        JsonCourseRepresentation, HalJsonCourseRepresentation)
 from .services import CourseService
 
 logger = logging.getLogger(__name__)
@@ -31,34 +33,24 @@ class ListAllSubjects(ServiceView):
     def as_hal_json(self, response):
         return HalJsonSubjectsRepresentation(response, request.url_rule.endpoint).as_json()
 
+
 class SearchCourses(ServiceView):
     """Search for courses by full-text search
     """
     methods = ['GET', 'OPTIONS']
 
     def handle_request(self):
-        query = request.args.get('q', '')
+        self.query = request.args.get('q', '')
         courses = CourseService.from_context()
-        results = courses.search_courses(query)
-        return {'results': self.halify(results),
-                LINKS_PROPERTY: {
-                    'self': {
-                        'href': url_for('.search', q=query)
-                    },
-                    'search': {
-                        'href': url_for('.search') + "?q={?query}",
-                        'templated': True,
-                        },
-                }
-        }
+        return courses.search_courses(self.query)
 
-    def halify(self, resource):
-        for result in resource:
-            result[LINKS_PROPERTY] = {
-                'self':
-                    { 'href': url_for('.course', id=result['id'])}
-                }
-        return resource
+    @accepts(JSON)
+    def as_json(self, response):
+        return JsonCoursesRepresentation(self.query, response).as_json()
+
+    @accepts(HAL_JSON)
+    def as_hal_json(self, response):
+        return HalJsonCoursesRepresentation(self.query, response, request.url_rule.endpoint).as_json()
 
 
 class CourseDetails(ServiceView):
@@ -69,27 +61,15 @@ class CourseDetails(ServiceView):
     def handle_request(self, id):
         service = CourseService.from_context()
         course = service.list_presentations_for_course(id)
-        return self.halify(course)
+        return course
 
-    def halify(self, resource):
-        representation = resource._to_json()
-        representation[LINKS_PROPERTY] = {
-            'self':
-                  { 'href': url_for('.course', id=resource.id) }
-            }
-        if 'presentations' in representation:
-            representation['presentations'] = []
-            for presentation in resource.presentations:
-                rep_pres = presentation._to_json()
-                rep_pres[LINKS_PROPERTY] = {}
-                # Only add the "book" link if the presentation is bookable
-                if presentation.booking_endpoint and presentation.bookable:
-                    rep_pres[LINKS_PROPERTY]['book'] = {
-                        'href': url_for('.presentation_book', id=presentation.id),
-                        'method': 'POST',   # NOTE we're going off specification here, it's an experiment
-                    }
-                representation['presentations'].append(rep_pres)
-        return representation
+    @accepts(JSON)
+    def as_json(self, response):
+        return JsonCourseRepresentation(response).as_json()
+
+    @accepts(HAL_JSON)
+    def as_hal_json(self, response):
+        return HalJsonCourseRepresentation(response, request.url_rule.endpoint).as_json()
 
 
 class BookCourse(ServiceView):
