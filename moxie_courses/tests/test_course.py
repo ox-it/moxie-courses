@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime
 
-from moxie_courses.course import Course, Presentation
+from moxie_courses.domain import Course, Presentation
 
 
 class CourseTestCase(unittest.TestCase):
