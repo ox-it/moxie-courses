@@ -103,3 +103,46 @@ class HalJsonCoursesRepresentation(JsonCoursesRepresentation):
 
     def as_json(self):
         return jsonify(self.as_dict())
+
+
+class JsonSubjectRepresentation(object):
+    def __init__(self, subject):
+        self.subject = subject
+
+    def as_dict(self):
+        return {self.subject.title: self.subject.count}
+
+
+class JsonSubjectsRepresentation(object):
+    def __init__(self, subjects):
+        self.subjects = subjects
+
+    def as_dict(self, representation=JsonSubjectRepresentation):
+        subjects = dict()
+        for subject in self.subjects:
+            subjects.update(representation(subject).as_dict())
+        return subjects
+
+    def as_json(self):
+        return jsonify(self.as_dict())
+
+
+class HalJsonSubjectsRepresentation(object):
+    def __init__(self, subjects, endpoint):
+        self.subjects = subjects
+        self.endpoint = endpoint
+
+    def as_dict(self):
+        subjects = []
+        for subject in self.subjects:
+            subjects.append({
+                'title': subject.title,
+                'href': url_for('.search', q='course_subject:"%s"' % subject.title)
+                })
+        return {'_links': {
+            'courses:subject': subjects,
+            'self': {'href': url_for(self.endpoint)}
+            }}
+
+    def as_json(self):
+        return jsonify(self.as_dict())
