@@ -2,8 +2,10 @@ import logging
 
 from flask import request, url_for, abort
 
-from moxie.core.views import ServiceView
+from moxie.core.views import ServiceView, accepts
 from moxie.oauth.services import OAuth1Service
+from moxie.core.representations import JSON, HAL_JSON
+from .representations import JsonSubjectsRepresentation, HalJsonSubjectsRepresentation
 from .services import CourseService
 
 logger = logging.getLogger(__name__)
@@ -19,33 +21,15 @@ class ListAllSubjects(ServiceView):
 
     def handle_request(self):
         courses = CourseService.from_context()
-        subjects = courses.list_courses_subjects()
-        return {'subjects': self.halify_subjects(subjects),
-                LINKS_PROPERTY: {
-                    'self': {
-                        'href': url_for('.subjects'),
-                        },
-                    'find': {
-                        'href': url_for('.search') + "?q=course_subject:\"{?subject_name}\"",
-                        'templated': True,
-                    },
-                    'search': {
-                        'href': url_for('.search') + "?q={?query}",
-                        'templated': True,
-                    },
-                }
-        }
+        return courses.list_courses_subjects()
 
-    def halify_subjects(self, subjects):
-        elements = list()
-        for k, v in subjects.items():
-            elements.append({
-                'name': k,
-                'count': v,
-                LINKS_PROPERTY: { 'list': { 'href': url_for('.search', q='course_subject:"{0}"'.format(k)) }}
-            })
-        return elements
+    @accepts(JSON)
+    def as_json(self, response):
+        return JsonSubjectsRepresentation(response).as_json()
 
+    @accepts(HAL_JSON)
+    def as_hal_json(self, response):
+        return HalJsonSubjectsRepresentation(response, request.url_rule.endpoint).as_json()
 
 class SearchCourses(ServiceView):
     """Search for courses by full-text search
