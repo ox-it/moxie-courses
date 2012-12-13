@@ -1,11 +1,12 @@
 import logging
 
-from itertools import chain, izip
+from itertools import chain
 
 from moxie.core.service import ProviderService
 from moxie.core.search import searcher, SearchServerException
 
-from moxie_courses.solr import presentations_to_course_object, presentation_to_presentation_object
+from moxie_courses.solr import (presentations_to_course_object,
+        presentation_to_presentation_object, subjects_facet_to_subjects_domain)
 
 logger = logging.getLogger(__name__)
 
@@ -63,10 +64,8 @@ class CourseService(ProviderService):
         else:
             q['q'] = 'presentation_start:[NOW-1DAY TO *]'
         results = searcher.search(q)
-        facets = results.as_dict['facet_counts']['facet_fields']['course_subject']
-        # Solr returns a list as ['skill A', 2, 'skill B', 5, 'skill C', 3]
-        i = iter(facets)
-        return dict(izip(i, i))
+        subjects = subjects_facet_to_subjects_domain(results)
+        return subjects
 
     def list_presentations_for_course(self, course_identifier, all=False):
         """List all presentations for a given course

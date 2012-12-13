@@ -1,6 +1,7 @@
 from datetime import datetime
+from itertools import izip
 
-from moxie_courses.domain import Course, Presentation
+from moxie_courses.domain import Course, Presentation, Subject
 
 SOLR_DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
@@ -55,3 +56,15 @@ def presentation_to_presentation_object(solr_response):
         presentation.booking_endpoint = solr_response['presentation_bookingEndpoint']
     course.presentations.append(presentation)
     return course
+
+
+def subjects_facet_to_subjects_domain(solr_response):
+    """Transforms the facetted response from Solr into a list of Subject objects
+    :param: solr_response: facetted response from solr.
+    :return list of Subjects
+    """
+    facets = solr_response.as_dict['facet_counts']['facet_fields']['course_subject']
+    # Solr returns a list as ['skill A', 2, 'skill B', 5, 'skill C', 3]
+    i = iter(facets)
+    subjects = [Subject(title, count) for (title, count) in izip(i, i)]
+    return subjects
