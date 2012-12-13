@@ -32,3 +32,9 @@ class Presentation(object):
         if self.apply_from and self.apply_until and self.booking_endpoint:
             return self.apply_from < self.date_apply < self.apply_until
         return False
+
+
+class Subject(object):
+    def __init__(self, title, count=None):
+        self.title = title
+        self.count = count
