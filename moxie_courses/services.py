@@ -13,13 +13,6 @@ logger = logging.getLogger(__name__)
 class CourseService(ProviderService):
     default_search = '*'
 
-    def list_courses(self, authorized=False):
-        # TODO what is this supposed to do? list? meaning search?
-        courses = [{'name': 'SCRUM Master training 4.5'}]
-        if authorized:
-            courses.append({'name': 'Oxford Special Forces'})
-        return courses
-
     def my_courses(self, signer):
         """List all courses booked by an user
         :param signer: OAuth signer token of the user
@@ -44,11 +37,11 @@ class CourseService(ProviderService):
             q['q'] += ' AND presentation_start:[NOW-1DAY TO *]'
         try:
             results = searcher.search(q)
-        except SearchServerException as sse:
+        except SearchServerException:
             return None
         groups = []
         for group in results.as_dict['grouped']['course_identifier']['groups']:
-            g = { 'id': group['groupValue'],
+            g = {'id': group['groupValue'],
                   'title': group['doclist']['docs'][0]['course_title'],
                   'description': group['doclist']['docs'][0]['course_description']}
             groups.append(g)
@@ -56,10 +49,11 @@ class CourseService(ProviderService):
 
     def list_courses_subjects(self, all=False):
         """List all subjects from courses
-        :param all: (optional) list ALL subjects, by default only subjects that have actual presentations in the future
+        :param all: (optional) list ALL subjects, by default only subjects
+                    that have actual presentations in the future
         :return dict with subject, count of presentations for this subject
         """
-        q = { 'facet': 'true',
+        q = {'facet': 'true',
               'facet.field': 'course_subject',
               'facet.mincount': '1',
               'rows': '0',  # we don't need any actual document
@@ -70,19 +64,19 @@ class CourseService(ProviderService):
             q['q'] = 'presentation_start:[NOW-1DAY TO *]'
         results = searcher.search(q)
         facets = results.as_dict['facet_counts']['facet_fields']['course_subject']
-        # Solr returns a list as ['skill A', 2, 'skill B', 5, 'skill C', 3] (x being a count of documents
-        # matching, total number of presentations available for this subject)
+        # Solr returns a list as ['skill A', 2, 'skill B', 5, 'skill C', 3]
         i = iter(facets)
         return dict(izip(i, i))
 
     def list_presentations_for_course(self, course_identifier, all=False):
         """List all presentations for a given course
         :param course_identifier: ID of the course
-        :param all: (optional) list ALL presentations, by default only presentations that start in the future
+        :param all: (optional) list ALL presentations, by default only
+                    presentations that start in the future
         :return list of presentations
         """
-        q = { 'fq': 'course_identifier:{id}'.format(id=course_identifier),
-               'sort': 'presentation_start asc' }
+        q = {'fq': 'course_identifier:{id}'.format(id=course_identifier),
+               'sort': 'presentation_start asc'}
         if all:
             q['q'] = '*:*'
         else:
@@ -90,7 +84,8 @@ class CourseService(ProviderService):
         results = searcher.search(q)
         return presentations_to_course_object(results.results)
 
-    def book_presentation(self, id, user_signer, supervisor_email=None, supervisor_message=None):
+    def book_presentation(self, id, user_signer, supervisor_email=None,
+            supervisor_message=None):
         """Book a presentation
         :param id: unique identifier of the presentation
         :param user_signer: oAuth token of the user
@@ -103,6 +98,8 @@ class CourseService(ProviderService):
         presentation = course.presentations[0]
         provider = self.get_provider(presentation)
         if not provider:
-            logger.info("No provider found to book presentation.", extra={'presentation_id': id})
+            logger.info("No provider found to book presentation.",
+                    extra={'presentation_id': id})
             return False
-        return provider.book(presentation, user_signer, supervisor_email, supervisor_message)
+        return provider.book(presentation, user_signer, supervisor_email,
+                supervisor_message)
