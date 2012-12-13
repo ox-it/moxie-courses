@@ -32,7 +32,7 @@ class CourseService(ProviderService):
              'group': 'true',
              'group.field': 'course_identifier',
              'group.count': '1',
-             'fl': 'course_title,course_identifier,course_description',
+             # 'fl': 'course_title,course_identifier,course_description',
              }
         if not all:
             q['q'] += ' AND presentation_start:[NOW-1DAY TO *]'
@@ -40,13 +40,10 @@ class CourseService(ProviderService):
             results = searcher.search(q)
         except SearchServerException:
             return None
-        groups = []
+        courses = []
         for group in results.as_dict['grouped']['course_identifier']['groups']:
-            g = {'id': group['groupValue'],
-                  'title': group['doclist']['docs'][0]['course_title'],
-                  'description': group['doclist']['docs'][0]['course_description']}
-            groups.append(g)
-        return groups
+            courses.append(presentations_to_course_object(group['doclist']['docs']))
+        return courses
 
     def list_courses_subjects(self, all=False):
         """List all subjects from courses
