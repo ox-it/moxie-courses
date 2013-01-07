@@ -5,9 +5,9 @@ from flask import request, url_for, abort
 from moxie.core.views import ServiceView, accepts
 from moxie.oauth.services import OAuth1Service
 from moxie.core.representations import JSON, HAL_JSON
-from .representations import (JsonSubjectsRepresentation, HalJsonSubjectsRepresentation,
-        JsonCoursesRepresentation, HalJsonCoursesRepresentation,
-        JsonCourseRepresentation, HalJsonCourseRepresentation)
+from .representations import (SubjectsRepresentation, HALSubjectsRepresentation,
+        CoursesRepresentation, HALCoursesRepresentation,
+        CourseRepresentation, HALCourseRepresentation)
 from .services import CourseService
 
 logger = logging.getLogger(__name__)
@@ -27,11 +27,11 @@ class ListAllSubjects(ServiceView):
 
     @accepts(JSON)
     def as_json(self, response):
-        return JsonSubjectsRepresentation(response).as_json()
+        return SubjectsRepresentation(response).as_json()
 
     @accepts(HAL_JSON)
     def as_hal_json(self, response):
-        return HalJsonSubjectsRepresentation(response, request.url_rule.endpoint).as_json()
+        return HALSubjectsRepresentation(response, request.url_rule.endpoint).as_json()
 
 
 class SearchCourses(ServiceView):
@@ -46,11 +46,11 @@ class SearchCourses(ServiceView):
 
     @accepts(JSON)
     def as_json(self, response):
-        return JsonCoursesRepresentation(self.query, response).as_json()
+        return CoursesRepresentation(self.query, response).as_json()
 
     @accepts(HAL_JSON)
     def as_hal_json(self, response):
-        return HalJsonCoursesRepresentation(self.query, response, request.url_rule.endpoint).as_json()
+        return HALCoursesRepresentation(self.query, response, request.url_rule.endpoint).as_json()
 
 
 class CourseDetails(ServiceView):
@@ -65,11 +65,11 @@ class CourseDetails(ServiceView):
 
     @accepts(JSON)
     def as_json(self, response):
-        return JsonCourseRepresentation(response).as_json()
+        return CourseRepresentation(response).as_json()
 
     @accepts(HAL_JSON)
     def as_hal_json(self, response):
-        return HalJsonCourseRepresentation(response, request.url_rule.endpoint).as_json()
+        return HALCourseRepresentation(response, request.url_rule.endpoint).as_json()
 
 
 class BookCourse(ServiceView):
@@ -91,9 +91,10 @@ class BookCourse(ServiceView):
             if result:
                 return 200
             else:
-                return abort(409)   # TODO have a better response in case of failure (not possible atm)
+                # TODO better response in case of failure (not possible atm)
+                return abort(409)
         else:
-           abort(401)
+            abort(401)
 
 
 class Bookings(ServiceView):
@@ -114,6 +115,6 @@ class Bookings(ServiceView):
         for course in resource:
             course[LINKS_PROPERTY] = {
                 'self':
-                        { 'href': url_for('.course', id=course['id']) }
+                        {'href': url_for('.course', id=course['id'])}
                 }
         return resource

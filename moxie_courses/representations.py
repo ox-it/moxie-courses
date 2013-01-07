@@ -1,13 +1,13 @@
 from flask import url_for, jsonify
 
-from moxie.core.representations import JsonRepresentation, HalJsonRepresentation
+from moxie.core.representations import Representation, HALRepresentation
 
 
-class JsonCourseRepresentation(JsonRepresentation):
+class CourseRepresentation(Representation):
 
     def __init__(self, course):
         self.course = course
-        self.presentations = [JsonPresentationRepresentation(p) for p in course.presentations]
+        self.presentations = [PresentationRepresentation(p) for p in course.presentations]
 
     def as_dict(self):
         return {
@@ -23,7 +23,7 @@ class JsonCourseRepresentation(JsonRepresentation):
         return jsonify(self.as_dict())
 
 
-class JsonPresentationRepresentation(JsonRepresentation):
+class PresentationRepresentation(Representation):
 
     def __init__(self, presentation):
         self.presentation = presentation
@@ -45,31 +45,31 @@ class JsonPresentationRepresentation(JsonRepresentation):
         return response
 
 
-class HalJsonCourseRepresentation(JsonCourseRepresentation):
+class HALCourseRepresentation(CourseRepresentation):
 
     def __init__(self, course, endpoint):
-        super(HalJsonCourseRepresentation, self).__init__(course)
+        super(HALCourseRepresentation, self).__init__(course)
         self.endpoint = endpoint
 
     def as_dict(self):
-        base = super(HalJsonCourseRepresentation, self).as_dict()
+        base = super(HALCourseRepresentation, self).as_dict()
         links = {'self': {
                     'href': url_for(self.endpoint, id=self.course.id)
                 }
         }
-        return HalJsonRepresentation(base, links).as_dict()
+        return HALRepresentation(base, links).as_dict()
 
     def as_json(self):
         return jsonify(self.as_dict())
 
 
-class JsonCoursesRepresentation(object):
+class CoursesRepresentation(object):
 
     def __init__(self, query, results):
         self.query = query
         self.results = results
 
-    def as_dict(self, representation=JsonCourseRepresentation):
+    def as_dict(self, representation=CourseRepresentation):
         return {
             'query': self.query,
             'results': [representation(r).as_dict() for r in self.results]
@@ -79,10 +79,10 @@ class JsonCoursesRepresentation(object):
         return jsonify(self.as_dict())
 
 
-class HalJsonCoursesRepresentation(JsonCoursesRepresentation):
+class HALCoursesRepresentation(CoursesRepresentation):
 
     def __init__(self, query, results, endpoint):
-        super(HalJsonCoursesRepresentation, self).__init__(query, results)
+        super(HALCoursesRepresentation, self).__init__(query, results)
         self.endpoint = endpoint
 
     def as_dict(self):
@@ -90,18 +90,18 @@ class HalJsonCoursesRepresentation(JsonCoursesRepresentation):
             'query': self.query,
         }
         # Need to have the '.' before 'course' to correctly pick the URL
-        courses = [HalJsonCourseRepresentation(r, '.course').as_dict() for r in self.results]
+        courses = [HALCourseRepresentation(r, '.course').as_dict() for r in self.results]
         links = {'self': {
             'href': url_for(self.endpoint, q=self.query)
             }
         }
-        return HalJsonRepresentation(response, links, {'courses': courses}).as_dict()
+        return HALRepresentation(response, links, {'courses': courses}).as_dict()
 
     def as_json(self):
         return jsonify(self.as_dict())
 
 
-class JsonSubjectRepresentation(object):
+class SubjectRepresentation(object):
     def __init__(self, subject):
         self.subject = subject
 
@@ -109,11 +109,11 @@ class JsonSubjectRepresentation(object):
         return {self.subject.title: self.subject.count}
 
 
-class JsonSubjectsRepresentation(object):
+class SubjectsRepresentation(object):
     def __init__(self, subjects):
         self.subjects = subjects
 
-    def as_dict(self, representation=JsonSubjectRepresentation):
+    def as_dict(self, representation=SubjectRepresentation):
         subjects = dict()
         for subject in self.subjects:
             subjects.update(representation(subject).as_dict())
@@ -123,7 +123,7 @@ class JsonSubjectsRepresentation(object):
         return jsonify(self.as_dict())
 
 
-class HalJsonSubjectsRepresentation(object):
+class HALSubjectsRepresentation(object):
     def __init__(self, subjects, endpoint):
         self.subjects = subjects
         self.endpoint = endpoint
@@ -138,7 +138,7 @@ class HalJsonSubjectsRepresentation(object):
         links = {'self': {'href': url_for(self.endpoint)},
                 'courses:subject': subjects,
                 }
-        return HalJsonRepresentation({}, links).as_dict()
+        return HALRepresentation({}, links).as_dict()
 
     def as_json(self):
         return jsonify(self.as_dict())
