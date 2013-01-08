@@ -34,7 +34,10 @@ PARSE_STRUCTURE = {
             (XCRI_NS, "applyFrom"): "dtf",
             (XCRI_NS, "applyUntil"): "dtf",
             (OXCAP_NS, "memberApplyTo"): None,
-            (XCRI_NS, "venue"): None
+            (XCRI_NS, "venue"): None,
+            (XCRI_NS, "attendanceMode"): None,
+            (XCRI_NS, "attendancePattern"): None,
+            (XCRI_NS, "studyMode"): None,
             },
 }
 
@@ -175,6 +178,8 @@ class XcriOxImporter(object):
                     p['presentation_applyUntil'] = self._date_to_solr_format(p['presentation_applyUntil'][0])
                 if 'presentation_bookingEndpoint' in p:
                     p['presentation_bookingEndpoint'] = p['presentation_bookingEndpoint'][0]
+                if 'presentation_memberApplyTo' in p:
+                    p['presentation_memberApplyTo'] = p['presentation_memberApplyTo'][0]
 
                 self.presentations.append(p)
             except Exception as e:

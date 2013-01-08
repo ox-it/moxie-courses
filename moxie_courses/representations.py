@@ -42,6 +42,12 @@ class PresentationRepresentation(Representation):
             response['apply_from'] = self.presentation.apply_from.isoformat()
         if self.presentation.apply_until:
             response['apply_until'] = self.presentation.apply_until.isoformat()
+        if self.presentation.attendance_mode:
+            response['attendance_mode'] = self.presentation.attendance_mode
+        if self.presentation.attendance_pattern:
+            response['attendance_pattern'] = self.presentation.attendance_pattern
+        if self.presentation.study_mode:
+            response['study_mode'] = self.presentation.study_mode
         return response
 
 

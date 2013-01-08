@@ -29,6 +29,15 @@ def presentations_to_course_object(solr_response):
             presentation.apply_until = datetime.strptime(result['presentation_applyUntil'], SOLR_DATE_FORMAT)
         if 'presentation_bookingEndpoint' in result:
             presentation.booking_endpoint = result['presentation_bookingEndpoint']
+        if 'presentation_memberApplyTo' in result:
+            presentation.apply_link = result['presentation_memberApplyTo']
+        if 'presentation_attendanceMode' in result:
+            presentation.attendance_mode = result['presentation_attendanceMode']
+        if 'presentation_attendancePattern' in result:
+            presentation.attendance_pattern = result['presentation_attendancePattern']
+        if 'presentation_studyMode' in result:
+            presentation.study_mode = result['presentation_studyMode']
+
         course.presentations.append(presentation)
     return course
 
@@ -54,6 +63,15 @@ def presentation_to_presentation_object(solr_response):
         presentation.apply_until = datetime.strptime(solr_response['presentation_applyUntil'], SOLR_DATE_FORMAT)
     if 'presentation_bookingEndpoint' in solr_response:
         presentation.booking_endpoint = solr_response['presentation_bookingEndpoint']
+    if 'presentation_memberApplyTo' in solr_response:
+        presentation.apply_link = solr_response['presentation_memberApplyTo']
+    if 'presentation_attendanceMode' in solr_response:
+        presentation.attendance_mode = solr_response['presentation_attendanceMode']
+    if 'presentation_attendancePattern' in solr_response:
+        presentation.attendance_pattern = solr_response['presentation_attendancePattern']
+    if 'presentation_studyMode' in solr_response:
+        presentation.study_mode = solr_response['presentation_studyMode']
+
     course.presentations.append(presentation)
     return course
 
