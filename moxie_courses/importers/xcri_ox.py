@@ -163,7 +163,7 @@ class XcriOxImporter(object):
                 if not presentation_id:
                     # Presentation identifier is the main ID for a document
                     # if there is no ID, we do not want to import it
-                    continue
+                    raise Exception("Presentation with no ID")
                 p['presentation_identifier'] = presentation_id
                 if 'presentation_start' in p:
                     p['presentation_start'] = self._date_to_solr_format(p['presentation_start'][0])
