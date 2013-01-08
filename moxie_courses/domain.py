@@ -15,7 +15,8 @@ class Course(object):
 class Presentation(object):
     def __init__(self, id, course, start=None, end=None, location="",
             apply_link="", booking_endpoint="",
-            apply_from=None, apply_until=None, date_apply=None):
+            apply_from=None, apply_until=None, date_apply=None,
+            attendance_mode=None, attendance_pattern=None, study_mode=None):
         self.id = id
         self.course = course
         self.start = start
@@ -26,6 +27,9 @@ class Presentation(object):
         self.apply_from = apply_from
         self.apply_until = apply_until
         self.date_apply = date_apply or datetime.now()
+        self.attendance_mode = attendance_mode
+        self.attendance_pattern = attendance_pattern
+        self.study_mode = study_mode
 
     @property
     def bookable(self):

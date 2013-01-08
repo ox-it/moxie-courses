@@ -78,7 +78,10 @@ class CourseService(ProviderService):
         else:
             q['q'] = 'NOT presentation_start:[* TO NOW]'
         results = searcher.search(q)
-        return presentations_to_course_object(results.results)
+        if results.results:
+            return presentations_to_course_object(results.results)
+        else:
+            return None
 
     def book_presentation(self, id, user_signer, supervisor_email=None,
             supervisor_message=None):

@@ -43,6 +43,7 @@ class XcriOxImporterTestCase(unittest.TestCase):
         self.assertEqual(len(first['course_subject']), 1)
         self.assertEqual(first['presentation_start'], "2012-06-15T00:00:00Z")
         self.assertEqual(first['presentation_bookingEndpoint'], "https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50013")
+        self.assertEqual(first['presentation_memberApplyTo'], "http://courses.it.ox.ac.uk/detail/TRWF")
 
         last = presentations[3]
         self.assertEqual(last['presentation_identifier'], "daisy-presentation-19303")
@@ -52,6 +53,7 @@ class XcriOxImporterTestCase(unittest.TestCase):
         self.assertEqual(last['presentation_applyUntil'], "2012-05-14T00:00:00Z")
         self.assertEqual(last['course_title'], "Lunchtime Briefings on the Digital Humanities")
         self.assertEqual(last['provider_title'], "Humanities Division")
+        self.assertEqual(last['presentation_memberApplyTo'], "http://courses.it.ox.ac.uk/detail/TRWF")
 
     def test_handler_split_qname(self):
         self.assertEqual(XcriOxHandler._split_qname("prefix:property"),

@@ -34,7 +34,10 @@ PARSE_STRUCTURE = {
             (XCRI_NS, "applyFrom"): "dtf",
             (XCRI_NS, "applyUntil"): "dtf",
             (OXCAP_NS, "memberApplyTo"): None,
-            (XCRI_NS, "venue"): None
+            (XCRI_NS, "venue"): None,
+            (XCRI_NS, "attendanceMode"): None,
+            (XCRI_NS, "attendancePattern"): None,
+            (XCRI_NS, "studyMode"): None,
             },
 }
 
@@ -159,7 +162,12 @@ class XcriOxImporter(object):
                 p['course_title'] = p['course_title'][0]
                 p['course_identifier'] = self._get_identifier(p['course_identifier'])
                 p['course_description'] = ''.join(p['course_description'])
-                p['presentation_identifier'] = self._get_identifier(p['presentation_identifier'])
+                presentation_id = self._get_identifier(p['presentation_identifier'])
+                if not presentation_id:
+                    # Presentation identifier is the main ID for a document
+                    # if there is no ID, we do not want to import it
+                    raise Exception("Presentation with no ID")
+                p['presentation_identifier'] = presentation_id
                 if 'presentation_start' in p:
                     p['presentation_start'] = self._date_to_solr_format(p['presentation_start'][0])
                 if 'presentation_end' in p:
@@ -170,6 +178,8 @@ class XcriOxImporter(object):
                     p['presentation_applyUntil'] = self._date_to_solr_format(p['presentation_applyUntil'][0])
                 if 'presentation_bookingEndpoint' in p:
                     p['presentation_bookingEndpoint'] = p['presentation_bookingEndpoint'][0]
+                if 'presentation_memberApplyTo' in p:
+                    p['presentation_memberApplyTo'] = p['presentation_memberApplyTo'][0]
 
                 self.presentations.append(p)
             except Exception as e:
