@@ -35,7 +35,7 @@ class CourseService(ProviderService):
              # 'fl': 'course_title,course_identifier,course_description',
              }
         if not all:
-            q['q'] += ' AND presentation_start:[NOW-1DAY TO *]'
+            q['q'] += ' AND NOT presentation_start:[* TO NOW]'
         try:
             results = searcher.search(q)
         except SearchServerException:
@@ -59,7 +59,7 @@ class CourseService(ProviderService):
         if all:
             q['q'] = '*:*'
         else:
-            q['q'] = 'presentation_start:[NOW-1DAY TO *]'
+            q['q'] = 'NOT presentation_start:[* TO NOW]'
         results = searcher.search(q)
         subjects = subjects_facet_to_subjects_domain(results)
         return subjects
@@ -76,7 +76,7 @@ class CourseService(ProviderService):
         if all:
             q['q'] = '*:*'
         else:
-            q['q'] = 'presentation_start:[NOW-1DAY TO *]'
+            q['q'] = 'NOT presentation_start:[* TO NOW]'
         results = searcher.search(q)
         return presentations_to_course_object(results.results)
 
