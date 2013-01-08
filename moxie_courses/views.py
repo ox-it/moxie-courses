@@ -61,7 +61,10 @@ class CourseDetails(ServiceView):
     def handle_request(self, id):
         service = CourseService.from_context()
         course = service.list_presentations_for_course(id)
-        return course
+        if course:
+            return course
+        else:
+            abort(404)
 
     @accepts(JSON)
     def as_json(self, response):
