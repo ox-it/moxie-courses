@@ -54,7 +54,8 @@ class XcriOxHandler(sax.ContentHandler):
 
     def startElementNS(self, (uri, localname), qname, attributes):
         self.capture_data = False
-        if (uri, localname) in PARSE_STRUCTURE:
+        self.data = ''
+        if (uri, localname) in PARSE_STRUCTURE and not self.in_venue:
             self.parse = (uri, localname)
         elif self.parse is not None:
             element = PARSE_STRUCTURE[self.parse]
@@ -79,10 +80,13 @@ class XcriOxHandler(sax.ContentHandler):
                         self.element_data[self.tag] = [value]
 
     def endElementNS(self, (uri, localname), qname):
+        if self.capture_data:
+            self.element_data[self.tag].append(self.data)
+        self.data = ''
+
         if localname == 'venue':
             self.in_venue = False
-
-        if (uri, localname) == (XCRI_NS, "presentation"):
+        elif localname == 'presentation':
             self.presentations.append(self.element_data.copy())
 
         if localname in ('presentation', 'course', 'provider') and not self.in_venue:
@@ -94,9 +98,7 @@ class XcriOxHandler(sax.ContentHandler):
             self.parse = None
 
     def characters(self, data):
-        if self.capture_data:
-            if data.strip():
-                self.element_data[self.tag].append(data.strip())
+        self.data += data
 
     def endDocument(self):
         logger.debug("Parsed {0} presentations.".format(len(self.presentations)))
@@ -180,6 +182,10 @@ class XcriOxImporter(object):
                     p['presentation_bookingEndpoint'] = p['presentation_bookingEndpoint'][0]
                 if 'presentation_memberApplyTo' in p:
                     p['presentation_memberApplyTo'] = p['presentation_memberApplyTo'][0]
+                if 'presentation_attendanceMode' in p:
+                    p['presentation_attendanceMode'] = p['presentation_attendanceMode'][0]
+                if 'presentation_attendancePattern' in p:
+                    p['presentation_attendancePattern'] = p['presentation_attendancePattern'][0]
 
                 self.presentations.append(p)
             except Exception as e:
@@ -218,7 +224,7 @@ def main():
     args = argparse.ArgumentParser()
     args.add_argument('xcri_file', type=argparse.FileType('r'))
     ns = args.parse_args()
-    solr = SolrSearch('collection1', 'http://localhost:8983/solr/')
+    solr = SolrSearch('courses', 'http://33.33.33.10:8080/solr/')
     xcri_importer = XcriOxImporter(solr, ns.xcri_file)
     xcri_importer.run()
 

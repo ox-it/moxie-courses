@@ -56,6 +56,19 @@
                 <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
                 <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
                 <oxcap:bookingEndpoint>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50013</oxcap:bookingEndpoint>
+                <xcri:venue>
+                    <xcri:provider>
+                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">23233510</dc:identifier>
+                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:estates">364</dc:identifier>
+                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/23233510</dc:identifier>
+                        <dc:title>University Club</dc:title>
+                        <mlo:location>
+                            <mlo:address>11 Mansfield Road</mlo:address>
+                            <mlo:address>Oxford</mlo:address>
+                            <mlo:postcode>OX1 3SZ</mlo:postcode>
+                        </mlo:location>
+                    </xcri:provider>
+                </xcri:venue>
                 <oxcap:memberApplyTo>http://courses.it.ox.ac.uk/detail/TRWF</oxcap:memberApplyTo>
                 <xcri:applicationProcedure>
                     <html:div>
@@ -115,7 +128,6 @@
                 <xcri:attendanceMode identifier="CM">Campus</xcri:attendanceMode>
                 <xcri:attendancePattern identifier="DT">Daytime</xcri:attendancePattern>
                 <oxcap:bookingEndpoint>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50014</oxcap:bookingEndpoint>
-                <oxcap:memberApplyTo>http://courses.it.ox.ac.uk/detail/5E00D50014</oxcap:memberApplyTo>
                 <xcri:venue>
                     <xcri:provider>
                         <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">23233510</dc:identifier>
@@ -129,6 +141,7 @@
                         </mlo:location>
                     </xcri:provider>
                 </xcri:venue>
+                <oxcap:memberApplyTo>http://courses.it.ox.ac.uk/detail/5E00D50014</oxcap:memberApplyTo>
                 <xcri:applicationProcedure>
                     <html:div>
                         <html:p>Apply via <html:a href="https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50014">https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50014</html:a>.</html:p>
