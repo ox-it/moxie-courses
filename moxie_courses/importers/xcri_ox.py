@@ -34,13 +34,18 @@ PARSE_STRUCTURE = {
             (XCRI_NS, "applyFrom"): "dtf",
             (XCRI_NS, "applyUntil"): "dtf",
             (OXCAP_NS, "memberApplyTo"): None,
-            (XCRI_NS, "venue"): None,
             (XCRI_NS, "attendanceMode"): None,
             (XCRI_NS, "attendancePattern"): None,
             (XCRI_NS, "studyMode"): None,
             },
 }
 
+# Elements to keep in
+VENUE_STRUCTURE = {
+    (XCRI_NS, "provider"): {
+        (DC_NS, "identifier"): None
+    }
+}
 
 class XcriOxHandler(sax.ContentHandler):
 
@@ -55,14 +60,22 @@ class XcriOxHandler(sax.ContentHandler):
     def startElementNS(self, (uri, localname), qname, attributes):
         self.capture_data = False
         self.data = ''
+        # dealing with the xcri:provider being in two different structures
+        # that we need to parse...
         if (uri, localname) in PARSE_STRUCTURE and not self.in_venue:
             self.parse = (uri, localname)
+        elif (uri, localname) in VENUE_STRUCTURE and self.in_venue:
+            self.parse = (uri, localname)
         elif self.parse is not None:
-            element = PARSE_STRUCTURE[self.parse]
+            if not self.in_venue:
+                element = PARSE_STRUCTURE[self.parse]
+            else:
+                element = VENUE_STRUCTURE[self.parse]
+
             if localname == 'venue':
                 self.in_venue = True
                 self.capture_data = False
-                return
+
             if (uri, localname) in element and not self.in_venue:
                 # Capture data with given key except if we need the attribute
                 attr = element[(uri, localname)]
@@ -78,6 +91,11 @@ class XcriOxHandler(sax.ContentHandler):
                     if property == attr:
                         # Use the value of the attribute instead of the element
                         self.element_data[self.tag] = [value]
+            elif (uri, localname) in element and self.in_venue:
+                self.capture_data = True
+                self.tag = "{element}_venue_{key}".format(
+                    element='presentation',
+                    key=localname)
 
     def endElementNS(self, (uri, localname), qname):
         if self.capture_data:
@@ -89,12 +107,20 @@ class XcriOxHandler(sax.ContentHandler):
         elif localname == 'presentation':
             self.presentations.append(self.element_data.copy())
 
-        if localname in ('presentation', 'course', 'provider') and not self.in_venue:
+        if (uri, localname) in PARSE_STRUCTURE and not self.in_venue:
             for key in PARSE_STRUCTURE[(uri, localname)].keys():
                 # Removes all keys corresponding to the element
                 k = "{element}_{key}".format(element=localname, key=key[1])
                 if k in self.element_data:
                     del self.element_data[k]
+            try:
+                for key in VENUE_STRUCTURE[(uri, localname)].keys():
+                    k = "{element}_venue_{key}".format(element='presentation', key=key[1])
+                    if k in self.element_data:
+                        del self.element_data[k]
+            except KeyError as ke:
+                # Structure only used with provider (at least for now...)
+                pass
             self.parse = None
 
     def characters(self, data):
@@ -186,6 +212,14 @@ class XcriOxImporter(object):
                     p['presentation_attendanceMode'] = p['presentation_attendanceMode'][0]
                 if 'presentation_attendancePattern' in p:
                     p['presentation_attendancePattern'] = p['presentation_attendancePattern'][0]
+                if 'presentation_venue_identifier' in p:
+                    # we're only interested by OxPoints ID atm
+                    oxpoints = self._get_identifier(p['presentation_venue_identifier'],
+                        uri_base="http://oxpoints.oucs.ox.ac.uk/id/")
+                    if oxpoints:
+                        p['presentation_venue_identifier'] = 'oxpoints:{id}'.format(id=oxpoints)
+                    else:
+                        del p['presentation_venue_identifier']
 
                 self.presentations.append(p)
             except Exception as e:
