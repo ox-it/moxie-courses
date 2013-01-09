@@ -49,6 +49,8 @@ class PresentationRepresentation(Representation):
             response['attendance_pattern'] = self.presentation.attendance_pattern
         if self.presentation.study_mode:
             response['study_mode'] = self.presentation.study_mode
+        if self.presentation.booking_status:
+            response['booking_status'] = self.presentation.booking_status
         return response
 
 
@@ -87,14 +89,14 @@ class HALCourseRepresentation(CourseRepresentation):
 
 class CoursesRepresentation(object):
 
-    def __init__(self, query, results):
+    def __init__(self, courses, query=None):
         self.query = query
-        self.results = results
+        self.courses = courses
 
     def as_dict(self, representation=CourseRepresentation):
         return {
             'query': self.query,
-            'results': [representation(r).as_dict() for r in self.results]
+            'courses': [representation(r).as_dict() for r in self.courses]
         }
 
     def as_json(self):
@@ -103,8 +105,8 @@ class CoursesRepresentation(object):
 
 class HALCoursesRepresentation(CoursesRepresentation):
 
-    def __init__(self, query, results, endpoint):
-        super(HALCoursesRepresentation, self).__init__(query, results)
+    def __init__(self, courses, endpoint, query=None):
+        super(HALCoursesRepresentation, self).__init__(courses, query)
         self.endpoint = endpoint
 
     def as_dict(self):
@@ -112,12 +114,10 @@ class HALCoursesRepresentation(CoursesRepresentation):
             'query': self.query,
         }
         # Need to have the '.' before 'course' to correctly pick the URL
-        courses = [HALCourseRepresentation(r, '.course').as_dict() for r in self.results]
-        links = {'self': {
-            'href': url_for(self.endpoint, q=self.query)
-            }
-        }
-        return HALRepresentation(response, links, {'courses': courses}).as_dict()
+        courses = [HALCourseRepresentation(r, '.course').as_dict() for r in self.courses]
+        representation = HALRepresentation(response, embed=courses)
+        representation.add_link('self', url_for(self.endpoint, q=self.query))
+        return representation.as_dict()
 
     def as_json(self):
         return jsonify(self.as_dict())
