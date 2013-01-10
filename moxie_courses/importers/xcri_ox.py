@@ -64,9 +64,12 @@ class XcriOxHandler(sax.ContentHandler):
         # that we need to parse...
         if (uri, localname) in PARSE_STRUCTURE and not self.in_venue:
             self.parse = (uri, localname)
+            return
         elif (uri, localname) in VENUE_STRUCTURE and self.in_venue:
             self.parse = (uri, localname)
-        elif self.parse is not None:
+            return
+
+        if self.parse is not None:
             if not self.in_venue:
                 element = PARSE_STRUCTURE[self.parse]
             else:
@@ -104,6 +107,8 @@ class XcriOxHandler(sax.ContentHandler):
 
         if localname == 'venue':
             self.in_venue = False
+            # Structure to continue to parse is a presentation
+            self.parse = (XCRI_NS, "presentation")
         elif localname == 'presentation':
             self.presentations.append(self.element_data.copy())
 
