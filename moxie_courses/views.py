@@ -76,23 +76,27 @@ class CourseDetails(ServiceView):
                 request.url_rule.endpoint).as_json()
 
 
-class BookCourse(ServiceView):
+class PresentationBooking(ServiceView):
     """Book a course
     """
-    methods = ['POST', 'OPTIONS']
+    methods = ['POST', 'DELETE', 'OPTIONS']
 
     cors_allow_credentials = True
     cors_allow_headers = "Content-Type"
 
     def handle_request(self, id):
+        """Common code between booking and withdrawing a user
+        from a presentation. POST request signify a booking and
+        DELETE mean to withdraw a user from that presentation.
+        Other methods handle the service layer interactions.
+        """
         service = CourseService.from_context()
         oauth = OAuth1Service.from_context()
         if oauth.authorized:
-            booking = request.json
-            supervisor_email = booking.get('supervisor_email', None)
-            supervisor_message = booking.get('supervisor_message', None)
-            result = service.book_presentation(id, oauth.signer,
-                    supervisor_email, supervisor_message)
+            if request.method == 'POST':
+                result = self.book(id, service, oauth)
+            elif request.method == 'DELETE':
+                result = self.withdraw(id, service, oauth)
             if result:
                 return {'success': True}
             else:
@@ -100,6 +104,16 @@ class BookCourse(ServiceView):
                 return abort(409)
         else:
             abort(401)
+
+    def withdraw(self, id, service, oauth):
+        return service.withdraw(id, oauth.signer)
+
+    def book(self, id, service, oauth):
+        booking = request.json
+        supervisor_email = booking.get('supervisor_email', None)
+        supervisor_message = booking.get('supervisor_message', None)
+        return service.book_presentation(id, oauth.signer,
+                supervisor_email, supervisor_message)
 
 
 class Bookings(ServiceView):
