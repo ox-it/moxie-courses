@@ -17,7 +17,7 @@ class Presentation(object):
             apply_link="", booking_endpoint="",
             apply_from=None, apply_until=None, date_apply=None,
             attendance_mode=None, attendance_pattern=None, study_mode=None,
-            booking_status=None):
+            booking_status=None, booking_id=None):
         self.id = id
         self.course = course
         self.start = start
@@ -32,6 +32,7 @@ class Presentation(object):
         self.attendance_pattern = attendance_pattern
         self.study_mode = study_mode
         self.booking_status = booking_status
+        self.booking_id = booking_id
 
     @property
     def bookable(self):
