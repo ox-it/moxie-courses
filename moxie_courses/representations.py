@@ -64,7 +64,7 @@ class HALPresentationRepresentation(PresentationRepresentation):
         courses_service = CourseService.from_context()
         booking_provider = courses_service.get_provider(self.presentation)
         if booking_provider:
-            representation.add_link('book', url_for('.presentation_book',
+            representation.add_link('book', url_for('.presentation_booking',
                 id=self.presentation.id))
         return representation.as_dict()
 
