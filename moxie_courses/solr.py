@@ -37,6 +37,8 @@ def presentations_to_course_object(solr_response):
             presentation.attendance_pattern = result['presentation_attendancePattern']
         if 'presentation_studyMode' in result:
             presentation.study_mode = result['presentation_studyMode']
+        if 'presentation_venue_identifier' in result:
+            presentation.location = result['presentation_venue_identifier']
 
         course.presentations.append(presentation)
     return course
@@ -71,6 +73,8 @@ def presentation_to_presentation_object(solr_response):
         presentation.attendance_pattern = solr_response['presentation_attendancePattern']
     if 'presentation_studyMode' in solr_response:
         presentation.study_mode = solr_response['presentation_studyMode']
+    if 'presentation_venue_identifier' in solr_response:
+        presentation.location = solr_response['presentation_venue_identifier']
 
     course.presentations.append(presentation)
     return course

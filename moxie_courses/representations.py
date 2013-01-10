@@ -66,6 +66,9 @@ class HALPresentationRepresentation(PresentationRepresentation):
         if booking_provider:
             representation.add_link('book', url_for('.presentation_booking',
                 id=self.presentation.id))
+        if self.presentation.location:
+            representation.add_link('poi', url_for('places.poidetail',
+                ident=self.presentation.location))
         return representation.as_dict()
 
 
