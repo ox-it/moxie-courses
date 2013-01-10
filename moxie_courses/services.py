@@ -102,3 +102,32 @@ class CourseService(ProviderService):
             return False
         return provider.book(presentation, user_signer, supervisor_email,
                 supervisor_message)
+
+    def withdraw(self, id, user_signer):
+        """Withdraw the authenticated from a presentation they're enrolled on.
+        This is quite convoluted but the best way to avoid exposing any
+        implementation details to the user. We get the presentation they are
+        trying to withdraw from, check to see they're actually enrolled on it
+        and we have a provider for that presentation. Then we hand over to the
+        provider to issue the withdrawal.
+        :param id: unique identifier of the presentation
+        :param user_signer: oAuth token of the user
+        :return True if withdrawing from the course succeeded else False
+        """
+        result = searcher.get_by_ids([id])
+        course = presentation_to_presentation_object(result.results[0])
+        presentation = course.presentations[0]
+        user_courses = self.my_courses(user_signer)
+        try:
+            ucourse = filter(lambda c: c.id == course.id, user_courses)[0]
+            upres = filter(lambda p: p.id == presentation.id, ucourse.presentations)[0]
+        except IndexError:
+            logger.warn("Attempt to withdraw from a course the user may not be registered on",
+                    extra={'presentation_id': id})
+            return False
+        provider = self.get_provider(presentation)
+        if not provider:
+            logger.info("No provider found to withdraw presentation.",
+                    extra={'presentation_id': id})
+            return False
+        return provider.withdraw(upres.booking_id, user_signer)
