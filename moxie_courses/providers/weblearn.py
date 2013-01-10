@@ -16,9 +16,11 @@ class WebLearnProvider(object):
         endpoint_hostname = urlparse.urlparse(endpoint).hostname
         self.supported_hostnames = supported_hostnames or [endpoint_hostname]
 
-        self.booking_url = endpoint + 'signup/cobomo/my/new'
         self.description_url = endpoint + 'course/cobomo/%s'
+        # Authenticated user endpoints
         self.user_courses_url = endpoint + 'signup/cobomo/my'
+        self.booking_url = endpoint + 'signup/cobomo/my/new'
+        self.withdraw_url = endpoint + 'signup/cobomo/%s/withdraw'
 
     def handles(self, presentation):
         hn = urlparse.urlparse(presentation.booking_endpoint).hostname
@@ -48,7 +50,23 @@ class WebLearnProvider(object):
             logger.warning(response.text)
             return False
 
+    def withdraw(self, booking_id, signer):
+        """Withdraw a user from a course booking.
+        :param booking_id: WebLearn specific ID to represent the booking
+        :param signer: oAuth signer
+        """
+        response = requests.post(self.withdraw_url % booking_id, auth=signer)
+        if response.status_code == 200:
+            return True
+        else:
+            logger.warning(response.text)
+            return False
+
     def user_courses(self, signer):
+        """List the courses and presentations a user is signed up to attend.
+        :param signer: oAuth signer
+        :return [Course()...]
+        """
         response = requests.get(self.user_courses_url, auth=signer)
         if response.ok:
             return self._parse_list_response(response.json)
@@ -68,6 +86,7 @@ class WebLearnProvider(object):
         courses = []
         for c in response:
             booking_status = c['status']
+            booking_id = c['id']
             course = Course(
                     id='daisy-course-%s' % c['components'][0]['componentSet'].split(':')[0],
                     title=c['group']['title'],
@@ -83,6 +102,7 @@ class WebLearnProvider(object):
                     start=self.datetime_from_ms(component['starts']),
                     end=self.datetime_from_ms(component['ends']),
                     booking_status=booking_status,
+                    booking_id=booking_id,
                     location="",    # component['location']
                     ))
             course.presentations = presentations
