@@ -67,20 +67,22 @@ class WebLearnProvider(object):
     def _parse_list_response(self, response):
         courses = []
         for c in response:
+            booking_status = c['status']
             course = Course(
-                    id=c['group']['courseId'],
+                    id='daisy-course-%s' % c['components'][0]['componentSet'].split(':')[0],
                     title=c['group']['title'],
-                    description="", # c['group']['description']
+                    description="",  # c['group']['description']
                     provider=c['group']['department'],
                     subjects=[cat['name'] for cat in c['group']['categories']],
                     )
             presentations = []
             for component in c['components']:
                 presentations.append(Presentation(
-                    id=component['presentationId'],
+                    id='daisy-presentation-%s' % component['presentationId'],
                     course=course,
                     start=self.datetime_from_ms(component['starts']),
                     end=self.datetime_from_ms(component['ends']),
+                    booking_status=booking_status,
                     location="",    # component['location']
                     ))
             course.presentations = presentations

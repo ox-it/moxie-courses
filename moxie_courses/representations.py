@@ -1,6 +1,7 @@
 from flask import url_for, jsonify
 
 from moxie.core.representations import Representation, HALRepresentation
+from moxie_courses.services import CourseService
 
 
 class CourseRepresentation(Representation):
@@ -48,22 +49,39 @@ class PresentationRepresentation(Representation):
             response['attendance_pattern'] = self.presentation.attendance_pattern
         if self.presentation.study_mode:
             response['study_mode'] = self.presentation.study_mode
+        if self.presentation.booking_status:
+            response['booking_status'] = self.presentation.booking_status
         return response
+
+
+class HALPresentationRepresentation(PresentationRepresentation):
+    def __init__(self, presentation):
+        super(HALPresentationRepresentation, self).__init__(presentation)
+
+    def as_dict(self):
+        base = super(HALPresentationRepresentation, self).as_dict()
+        representation = HALRepresentation(base)
+        courses_service = CourseService.from_context()
+        booking_provider = courses_service.get_provider(self.presentation)
+        if booking_provider:
+            representation.add_link('book', url_for('.presentation_book',
+                id=self.presentation.id))
+        return representation.as_dict()
 
 
 class HALCourseRepresentation(CourseRepresentation):
 
     def __init__(self, course, endpoint):
         super(HALCourseRepresentation, self).__init__(course)
+        self.presentations = [HALPresentationRepresentation(p) for p in course.presentations]
         self.endpoint = endpoint
 
     def as_dict(self):
         base = super(HALCourseRepresentation, self).as_dict()
-        links = {'self': {
-                    'href': url_for(self.endpoint, id=self.course.id)
-                }
-        }
-        return HALRepresentation(base, links).as_dict()
+        presentations = base.pop('presentations')
+        representation = HALRepresentation(base, embed=presentations)
+        representation.add_link('self', url_for(self.endpoint, id=self.course.id))
+        return representation.as_dict()
 
     def as_json(self):
         return jsonify(self.as_dict())
@@ -71,14 +89,14 @@ class HALCourseRepresentation(CourseRepresentation):
 
 class CoursesRepresentation(object):
 
-    def __init__(self, query, results):
+    def __init__(self, courses, query=None):
         self.query = query
-        self.results = results
+        self.courses = courses
 
     def as_dict(self, representation=CourseRepresentation):
         return {
             'query': self.query,
-            'results': [representation(r).as_dict() for r in self.results]
+            'courses': [representation(r).as_dict() for r in self.courses]
         }
 
     def as_json(self):
@@ -87,8 +105,8 @@ class CoursesRepresentation(object):
 
 class HALCoursesRepresentation(CoursesRepresentation):
 
-    def __init__(self, query, results, endpoint):
-        super(HALCoursesRepresentation, self).__init__(query, results)
+    def __init__(self, courses, endpoint, query=None):
+        super(HALCoursesRepresentation, self).__init__(courses, query)
         self.endpoint = endpoint
 
     def as_dict(self):
@@ -96,12 +114,10 @@ class HALCoursesRepresentation(CoursesRepresentation):
             'query': self.query,
         }
         # Need to have the '.' before 'course' to correctly pick the URL
-        courses = [HALCourseRepresentation(r, '.course').as_dict() for r in self.results]
-        links = {'self': {
-            'href': url_for(self.endpoint, q=self.query)
-            }
-        }
-        return HALRepresentation(response, links, {'courses': courses}).as_dict()
+        courses = [HALCourseRepresentation(r, '.course').as_dict() for r in self.courses]
+        representation = HALRepresentation(response, embed=courses)
+        representation.add_link('self', url_for(self.endpoint, q=self.query))
+        return representation.as_dict()
 
     def as_json(self):
         return jsonify(self.as_dict())
