@@ -40,8 +40,11 @@ class SearchCourses(ServiceView):
 
     def handle_request(self):
         self.query = request.args.get('q', '')
-        courses = CourseService.from_context()
-        return courses.search_courses(self.query)
+        self.start = request.args.get('start', 0)
+        self.count = request.args.get('count', 35)
+        service = CourseService.from_context()
+        courses, self.size = service.search_courses(self.query, self.start, self.count)
+        return courses
 
     @accepts(JSON)
     def as_json(self, response):
@@ -49,8 +52,8 @@ class SearchCourses(ServiceView):
 
     @accepts(HAL_JSON)
     def as_hal_json(self, response):
-        return HALCoursesRepresentation(response, request.url_rule.endpoint,
-                query=self.query).as_json()
+        return HALCoursesRepresentation(response, self.start, self.count, self.size,
+            request.url_rule.endpoint, query=self.query).as_json()
 
 
 class CourseDetails(ServiceView):

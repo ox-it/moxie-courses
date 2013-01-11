@@ -1,6 +1,6 @@
 from flask import url_for, jsonify
 
-from moxie.core.representations import Representation, HALRepresentation
+from moxie.core.representations import Representation, HALRepresentation, get_nav_links
 from moxie_courses.services import CourseService
 
 
@@ -108,8 +108,11 @@ class CoursesRepresentation(object):
 
 class HALCoursesRepresentation(CoursesRepresentation):
 
-    def __init__(self, courses, endpoint, query=None):
+    def __init__(self, courses, start, count, size, endpoint, query=None):
         super(HALCoursesRepresentation, self).__init__(courses, query)
+        self.start = start
+        self.count = count
+        self.size = size
         self.endpoint = endpoint
 
     def as_dict(self):
@@ -120,6 +123,7 @@ class HALCoursesRepresentation(CoursesRepresentation):
         courses = [HALCourseRepresentation(r, '.course').as_dict() for r in self.courses]
         representation = HALRepresentation(response, embed=courses)
         representation.add_link('self', url_for(self.endpoint, q=self.query))
+        representation.add_links(get_nav_links(self.endpoint, self.start, self.count, self.size, q=self.query))
         return representation.as_dict()
 
     def as_json(self):

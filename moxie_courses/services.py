@@ -21,7 +21,7 @@ class CourseService(ProviderService):
         """
         return list(chain(*[p.user_courses(signer=signer) for p in self.providers]))
 
-    def search_courses(self, search, all=False):
+    def search_courses(self, search, start, count, all=False):
         """Search for courses
         :param search: search query (FTS)
         :param all: (optional) all courses even starting in the past
@@ -32,18 +32,19 @@ class CourseService(ProviderService):
              'group': 'true',
              'group.field': 'course_identifier',
              'group.count': '1',
+             'group.ngroups': 'true',
              # 'fl': 'course_title,course_identifier,course_description',
              }
         if not all:
             q['q'] += ' AND NOT presentation_start:[* TO NOW]'
         try:
-            results = searcher.search(q)
+            results = searcher.search(q, start=start, count=count)
         except SearchServerException:
             return None
         courses = []
         for group in results.as_dict['grouped']['course_identifier']['groups']:
             courses.append(presentations_to_course_object(group['doclist']['docs']))
-        return courses
+        return courses, results.as_dict['grouped']['course_identifier']['ngroups']
 
     def list_courses_subjects(self, all=False):
         """List all subjects from courses
@@ -60,7 +61,7 @@ class CourseService(ProviderService):
             q['q'] = '*:*'
         else:
             q['q'] = 'NOT presentation_start:[* TO NOW]'
-        results = searcher.search(q)
+        results = searcher.search(q, start=0, count=1000)   # Do not paginate
         subjects = subjects_facet_to_subjects_domain(results)
         return subjects
 
@@ -77,7 +78,7 @@ class CourseService(ProviderService):
             q['q'] = '*:*'
         else:
             q['q'] = 'NOT presentation_start:[* TO NOW]'
-        results = searcher.search(q)
+        results = searcher.search(q, start=0, count=1000)   # Do not paginate
         if results.results:
             return presentations_to_course_object(results.results)
         else:
