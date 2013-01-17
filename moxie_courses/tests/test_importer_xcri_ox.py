@@ -44,8 +44,11 @@ class XcriOxImporterTestCase(unittest.TestCase):
         self.assertEqual(first['presentation_start'], "2012-06-15T00:00:00Z")
         self.assertEqual(first['presentation_bookingEndpoint'], "https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50013")
         self.assertEqual(first['presentation_attendancePattern'], "Daytime")
-        self.assertEqual(first['presentation_venue_identifier'], "oxpoints:23233510")
+        self.assertEqual(first['presentation_venue_identifier'], "oxpoints:ABCD")
         self.assertEqual(first['presentation_memberApplyTo'], "http://courses.it.ox.ac.uk/detail/TRWF")
+
+        third = presentations[2]
+        self.assertEqual(third['presentation_venue_identifier'], "oxpoints:FFFF")
 
         last = presentations[3]
         self.assertEqual(last['presentation_identifier'], "daisy-presentation-19303")

@@ -58,9 +58,9 @@
                 <oxcap:bookingEndpoint>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50013</oxcap:bookingEndpoint>
                 <xcri:venue>
                     <xcri:provider>
-                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">23233510</dc:identifier>
+                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">ABCD</dc:identifier>
                         <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:estates">364</dc:identifier>
-                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/23233510</dc:identifier>
+                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/ABCD</dc:identifier>
                         <dc:title>University Club</dc:title>
                         <mlo:location>
                             <mlo:address>11 Mansfield Road</mlo:address>
@@ -130,9 +130,9 @@
                 <oxcap:bookingEndpoint>https://weblearn.ox.ac.uk/course-signup/rest/course/5E00D50014</oxcap:bookingEndpoint>
                 <xcri:venue>
                     <xcri:provider>
-                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">23233510</dc:identifier>
+                        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">FFFF</dc:identifier>
                         <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:estates">364</dc:identifier>
-                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/23233510</dc:identifier>
+                        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/FFFF</dc:identifier>
                         <dc:title>University Club</dc:title>
                         <mlo:location>
                             <mlo:address>11 Mansfield Road</mlo:address>
