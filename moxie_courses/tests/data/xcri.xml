@@ -7,8 +7,8 @@
         <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:department">5E00</dc:identifier>
         <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:twoThree">D5</dc:identifier>
         <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oucs">humdiv</dc:identifier>
-        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">23233551</dc:identifier>
-        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/23233551</dc:identifier>
+        <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:oxpoints">PROVIDER</dc:identifier>
+        <dc:identifier>http://oxpoints.oucs.ox.ac.uk/id/PROVIDER</dc:identifier>
         <dc:title>Humanities Division</dc:title>
         <mlo:url>http://www.humanities.ox.ac.uk/</mlo:url>
         <mlo:location>
