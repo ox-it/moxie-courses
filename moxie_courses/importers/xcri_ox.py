@@ -118,14 +118,14 @@ class XcriOxHandler(sax.ContentHandler):
                 k = "{element}_{key}".format(element=localname, key=key[1])
                 if k in self.element_data:
                     del self.element_data[k]
-            try:
-                for key in VENUE_STRUCTURE[(uri, localname)].keys():
+
+            if localname == 'presentation':
+                # structure is provider although we're parsing a presentation...
+                for key in VENUE_STRUCTURE[(uri, 'provider')].keys():
                     k = "{element}_venue_{key}".format(element='presentation', key=key[1])
                     if k in self.element_data:
                         del self.element_data[k]
-            except KeyError as ke:
-                # Structure only used with provider (at least for now...)
-                pass
+
             self.parse = None
 
     def characters(self, data):
