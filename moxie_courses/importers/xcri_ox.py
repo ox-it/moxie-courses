@@ -167,6 +167,7 @@ class XcriOxImporter(object):
         self.buffer_size = buffer_size
         self.handler = handler()
         self.presentations = []
+        self.ignore_subjects = ['Graduate Training', 'Qualitative', 'Quantitative']
 
     def run(self):
         self.parse()
@@ -225,6 +226,8 @@ class XcriOxImporter(object):
                         p['presentation_venue_identifier'] = 'oxpoints:{id}'.format(id=oxpoints)
                     else:
                         del p['presentation_venue_identifier']
+
+                p['course_subject'] = [subject for subject in p['course_subject'] if subject not in self.ignore_subjects]
 
                 self.presentations.append(p)
             except Exception as e:

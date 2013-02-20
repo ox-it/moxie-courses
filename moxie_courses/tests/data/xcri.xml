@@ -206,6 +206,7 @@
             </dc:description>
             <xcri:regulations>University of Oxford members</xcri:regulations>
             <dc:subject>Graduate Training</dc:subject>
+            <dc:subject>Not Graduate Training</dc:subject>
             <xcri:presentation oxcap:status="AC">
                 <dc:identifier xmlns:ns="https://data.ox.ac.uk/id/notation/" xsi:type="ns:daisy-presentation">19303</dc:identifier>
                 <dc:identifier>https://course.data.ox.ac.uk/id/daisy/presentation/19303</dc:identifier>
