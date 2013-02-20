@@ -55,6 +55,7 @@ class CourseService(ProviderService):
         q = {'facet': 'true',
               'facet.field': 'course_subject',
               'facet.mincount': '1',
+              'facet.sort': 'index',    # Sort alphabetically
               'rows': '0',  # we don't need any actual document
               }
         if all:
