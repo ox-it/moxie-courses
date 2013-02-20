@@ -16,7 +16,10 @@ def presentations_to_course_object(solr_response):
     course.title = reference['course_title']
     course.description = reference['course_description']
     course.provider = reference['provider_title']
-    course.subjects = reference['course_subject']
+    if 'course_subject' in reference:
+        course.subjects = reference['course_subject']
+    else:
+        course.subjects = []
     for result in solr_response:
         presentation = Presentation(result['presentation_identifier'], course)
         if 'presentation_start' in result:
