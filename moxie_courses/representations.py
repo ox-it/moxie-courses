@@ -162,7 +162,8 @@ class HALSubjectsRepresentation(object):
         for subject in self.subjects:
             subjects.append({
                 'title': subject.title,
-                'href': url_for('.search', q='course_subject:"%s"' % subject.title)
+                'href': url_for('.search', q='course_subject:"%s"' % subject.title),
+                'count': subject.count
                 })
         links = {'self': {'href': url_for(self.endpoint)},
                 'courses:subject': subjects,
