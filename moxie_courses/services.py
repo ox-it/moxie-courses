@@ -4,6 +4,7 @@ from itertools import chain
 
 from moxie.core.service import ProviderService
 from moxie.core.search import searcher, SearchServerException
+from moxie.core.exceptions import ApplicationException
 
 from moxie_courses.solr import (presentations_to_course_object,
         presentation_to_presentation_object, subjects_facet_to_subjects_domain)
@@ -40,7 +41,7 @@ class CourseService(ProviderService):
         try:
             results = searcher.search(q, start=start, count=count)
         except SearchServerException:
-            return None
+            raise ApplicationException()
         courses = []
         for group in results.as_dict['grouped']['course_identifier']['groups']:
             courses.append(presentations_to_course_object(group['doclist']['docs']))
