@@ -82,7 +82,8 @@ class HALCourseRepresentation(CourseRepresentation):
     def as_dict(self):
         base = super(HALCourseRepresentation, self).as_dict()
         presentations = base.pop('presentations')
-        representation = HALRepresentation(base, embed=presentations)
+        representation = HALRepresentation(base)
+        representation.add_embed('presentations', presentations)
         representation.add_link('self', url_for(self.endpoint, id=self.course.id))
         return representation.as_dict()
 
@@ -121,7 +122,8 @@ class HALCoursesRepresentation(CoursesRepresentation):
         }
         # Need to have the '.' before 'course' to correctly pick the URL
         courses = [HALCourseRepresentation(r, '.course').as_dict() for r in self.courses]
-        representation = HALRepresentation(response, embed=courses)
+        representation = HALRepresentation(response)
+        representation.add_embed('courses', courses)
         representation.add_link('self', url_for(self.endpoint, q=self.query))
         representation.add_links(get_nav_links(self.endpoint, self.start, self.count, self.size, q=self.query))
         return representation.as_dict()
