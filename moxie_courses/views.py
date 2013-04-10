@@ -23,11 +23,7 @@ class ListAllSubjects(ServiceView):
         courses = CourseService.from_context()
         return courses.list_courses_subjects()
 
-    @accepts(JSON)
-    def as_json(self, response):
-        return SubjectsRepresentation(response).as_json()
-
-    @accepts(HAL_JSON)
+    @accepts(HAL_JSON, JSON)
     def as_hal_json(self, response):
         return HALSubjectsRepresentation(response,
                 request.url_rule.endpoint).as_json()
@@ -46,11 +42,7 @@ class SearchCourses(ServiceView):
         courses, self.size = service.search_courses(self.query, self.start, self.count)
         return courses
 
-    @accepts(JSON)
-    def as_json(self, response):
-        return CoursesRepresentation(response, query=self.query).as_json()
-
-    @accepts(HAL_JSON)
+    @accepts(HAL_JSON, JSON)
     def as_hal_json(self, response):
         return HALCoursesRepresentation(response, self.start, self.count, self.size,
             request.url_rule.endpoint, query=self.query).as_json()
@@ -69,11 +61,7 @@ class CourseDetails(ServiceView):
         else:
             abort(404)
 
-    @accepts(JSON)
-    def as_json(self, response):
-        return CourseRepresentation(response).as_json()
-
-    @accepts(HAL_JSON)
+    @accepts(HAL_JSON, JSON)
     def as_hal_json(self, response):
         return HALCourseRepresentation(response,
                 request.url_rule.endpoint).as_json()
@@ -129,14 +117,9 @@ class Bookings(ServiceView):
     def handle_request(self):
         courses = CourseService.from_context()
         oauth = OAuth1Service.from_context()
-
         return courses.my_courses(signer=oauth.signer)
 
-    @accepts(JSON)
-    def as_json(self, response):
-        return CoursesRepresentation(response).as_json()
-
-    @accepts(HAL_JSON)
+    @accepts(HAL_JSON, JSON)
     def as_hal_json(self, response):
         return HALCoursesRepresentation(response,
                 request.url_rule.endpoint).as_json()
