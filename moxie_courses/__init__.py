@@ -7,8 +7,8 @@ from .views import (Bookings, ListAllSubjects, SearchCourses, CourseDetails,
         PresentationBooking)
 
 
-def create_blueprint(blueprint_name):
-    courses_blueprint = Blueprint(blueprint_name, __name__)
+def create_blueprint(blueprint_name, conf):
+    courses_blueprint = Blueprint(blueprint_name, __name__, **conf)
 
     courses_blueprint.add_url_rule('/', view_func=get_routes)
 
