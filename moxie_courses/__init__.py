@@ -6,6 +6,8 @@ from moxie.core.representations import HALRepresentation
 from .views import (Bookings, ListAllSubjects, SearchCourses, CourseDetails,
         PresentationBooking)
 
+CURIE_ENDPOINT = "http://moxie-courses.readthedocs.org/en/latest/http_api/courses.html#{rel}"
+
 
 def create_blueprint(blueprint_name, conf):
     courses_blueprint = Blueprint(blueprint_name, __name__, **conf)
@@ -30,7 +32,7 @@ def create_blueprint(blueprint_name, conf):
 def get_routes():
     path = request.path
     representation = HALRepresentation({})
-    representation.add_curie('hl', 'http://moxie.readthedocs.org/en/latest/http_api/courses.html#{rel}')
+    representation.add_curie('hl', CURIE_ENDPOINT)
     representation.add_link('self', '{bp}'.format(bp=path))
     representation.add_link('hl:bookings', '{bp}bookings'.format(bp=path), title="Bookings")
     representation.add_link('hl:subjects', '{bp}subjects'.format(bp=path), title="Subjects")
