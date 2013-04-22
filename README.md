@@ -1,7 +1,9 @@
 moxie-courses
 =============
 
-Prototype to display and search courses from an XCRI feed and book them if a provider is able to do so.
+[Documentation](https://moxie-courses.readthedocs.org/en/latest/)
+
+Display and search courses from an XCRI feed and book them if a provider is able to do so.
 
 Requirements
 ------------
@@ -46,9 +48,3 @@ You can do this via a Python shell:
     >>> from moxie-courses.tasks import import_xcri_ox
     >>> import_xcri_ox.delay()
 
-Methods available
------------------
-
-* `/subjects` lists all subjects
-* `/search?q=[PARAM]` where `[PARAM]` can be a full-text search or a more precise search, e.g. `course_subject:"Information Skills"` where "Information Skills" is a subject from the list of subjects available.
-* `/course/[COURSE_ID]` where `[COURSE_ID]` is the unique ID of the course
