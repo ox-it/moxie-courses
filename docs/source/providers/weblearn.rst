@@ -1,6 +1,8 @@
 WebLearn
 ========
 
+WebLearn (Sakai) is a provider available for booking some presentations.
+
 Making a request to the API
 ---------------------------
 
@@ -21,19 +23,19 @@ For these errors, you will get a JSON response containing:
 * `status` property: “failed”
 * `message` property: a user-friendly message
 
-All other exceptions (conversely to [2]) will return an HTML response, you will have to handle the response code.
+All other exceptions will return an HTML response, you will have to handle the response code.
 
 Booking a course
 ----------------
 
+POST request to /course/cobomo/XXX/booking
+
+Returns an object where the `status` property can be:
+
+* `WAITING`: if the component is full
+* `PENDING`: in any other case
+
+Getting information on one course
+---------------------------------
+
 Request to /course/cobomo/XXX where XXX is the component ID
-
-Status can have the following values:
-
-* PENDING
-* WITHDRAWN
-* APPROVED
-* ACCEPTED
-* CONFIRMED
-* REJECTED
-* WAITING
