@@ -27,7 +27,7 @@ class WebLearnProvider(object):
         return (hn in self.supported_hostnames)
 
     def book(self, presentation, signer, supervisor_email=None,
-            supervisor_message=None):
+             supervisor_message=None):
         """Book a presentation on WL
         :param presentation: presentation object
         :param signer: oAuth signer
@@ -42,13 +42,15 @@ class WebLearnProvider(object):
             payload['email'] = supervisor_email
             payload['message'] = supervisor_message
         response = requests.post(self.booking_url, data=payload,
-                auth=signer)
-        # TODO should have an error message in case booking failed
-        if response.status_code == 200:
-            return True
+                                 auth=signer)
+        if response.ok:
+            return self._parse_list_response(response.json)
         else:
-            logger.warning(response.text)
-            return False
+            logger.error("Unable to get user's courses.", extra={
+                'status_code': response.status_code,
+                'content': response.text
+            })
+        return []
 
     def withdraw(self, booking_id, signer):
         """Withdraw a user from a course booking.
@@ -88,12 +90,12 @@ class WebLearnProvider(object):
             booking_status = c['status']
             booking_id = c['id']
             course = Course(
-                    id='daisy-course-%s' % c['components'][0]['componentSet'].split(':')[0],
-                    title=c['group']['title'],
-                    description="",  # c['group']['description']
-                    provider=c['group']['department'],
-                    subjects=[cat['name'] for cat in c['group']['categories']],
-                    )
+                id='daisy-course-%s' % c['components'][0]['componentSet'].split(':')[0],
+                title=c['group']['title'],
+                description="",  # c['group']['description']
+                provider=c['group']['department'],
+                subjects=[cat['name'] for cat in c['group']['categories']],
+                )
             presentations = []
             for component in c['components']:
                 presentations.append(Presentation(

@@ -85,6 +85,10 @@ class PresentationBooking(ServiceView):
         if oauth.authorized:
             if request.method == 'POST':
                 result = self.book(id, service, oauth)
+                # returning the presentation that has just been booked
+                # can be used to display the status of the booking
+                if result:
+                    return HALCourseRepresentation(result, request.url_rule.endpoint).as_json()
             elif request.method == 'DELETE':
                 result = self.withdraw(id, service, oauth)
             if result:
