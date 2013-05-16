@@ -5,10 +5,9 @@ from flask import request, abort
 from moxie.core.views import ServiceView, accepts
 from moxie.oauth.services import OAuth1Service
 from moxie.core.representations import JSON, HAL_JSON
-from .representations import (SubjectsRepresentation,
-        HALSubjectsRepresentation, CoursesRepresentation,
-        HALCoursesRepresentation, CourseRepresentation,
-        HALCourseRepresentation)
+from .representations import (HALSubjectsRepresentation,
+                              HALCoursesRepresentation,
+                              HALCourseRepresentation)
 from .services import CourseService
 
 logger = logging.getLogger(__name__)
@@ -104,7 +103,7 @@ class PresentationBooking(ServiceView):
         supervisor_email = booking.get('supervisor_email', None)
         supervisor_message = booking.get('supervisor_message', None)
         return service.book_presentation(id, oauth.signer,
-                supervisor_email, supervisor_message)
+                                         supervisor_email, supervisor_message)
 
 
 class Bookings(ServiceView):
