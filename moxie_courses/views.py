@@ -124,5 +124,7 @@ class Bookings(ServiceView):
 
     @accepts(HAL_JSON, JSON)
     def as_hal_json(self, response):
+        count = len(response)
         return HALCoursesRepresentation(response,
-                request.url_rule.endpoint).as_json()
+                                        0, count, count,
+                                        request.url_rule.endpoint).as_json()
