@@ -9,6 +9,14 @@ HTTP API
 
     http_api/*
 
+Providers
+---------
+
+.. toctree::
+    :glob:
+
+    providers/*
+
 Internal API
 -----------------
 
