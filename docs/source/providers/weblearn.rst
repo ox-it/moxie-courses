@@ -28,7 +28,7 @@ All other exceptions will return an HTML response, you will have to handle the r
 Booking a course
 ----------------
 
-POST request to /course/cobomo/XXX/booking
+POST request to `/course/cobomo/XXX/booking` where `XXX` is the course ID.
 
 Returns an object where the `status` property can be:
 
@@ -38,4 +38,11 @@ Returns an object where the `status` property can be:
 Getting information on one course
 ---------------------------------
 
-Request to /course/cobomo/XXX where XXX is the component ID
+Request to `/course/cobomo/XXX` where `XXX` is the course ID.
+
+Contains a property `supervisorApproval` which will determine if asking the user for the email address of its supervisor is mandatory.
+
+Getting information on booked course for one user
+-------------------------------------------------
+
+Status can be `WITHDRAWN` (meaning that the user has withdrawn his booking, and can book *again* the presentation).
