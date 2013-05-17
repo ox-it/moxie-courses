@@ -82,7 +82,15 @@ class CourseService(ProviderService):
             q['q'] = 'NOT presentation_start:[* TO NOW]'
         results = searcher.search(q, start=0, count=1000)   # Do not paginate
         if results.results:
-            return presentations_to_course_object(results.results)
+            course = presentations_to_course_object(results.results)
+            reference = course.presentations[0]
+            # "augmenting" our results with "live" information from providers
+            provider = self.get_provider(reference)
+            if provider:
+                provider_information = provider.get_course(reference)
+                if provider_information:
+                    pass
+                # TODO augment data // or replace?
         else:
             return None
 
