@@ -8,7 +8,6 @@ Making a request to the API
 
 All requests should be made requesting JSON (by specifying the HTTP header “Accept: application/json”).
 
-
 Handling errors from the API
 ----------------------------
 
@@ -30,6 +29,11 @@ Booking a course
 
 POST request to `/course/cobomo/XXX/booking` where `XXX` is the course ID.
 
+Form parameters:
+
+* `message`: mandatory message where the user should explain the reasons to book a course
+* `supervisorEmail` is only mandatory if`supervisorApproval` is `true` when you request details on one course.
+
 Returns an object where the `status` property can be:
 
 * `WAITING`: if the component is full
@@ -42,7 +46,14 @@ Request to `/course/cobomo/XXX` where `XXX` is the course ID.
 
 Contains a property `supervisorApproval` which will determine if asking the user for the email address of its supervisor is mandatory.
 
+The response contains a property `supervisorApproval` which determines if asking the user for
+
 Getting information on booked course for one user
 -------------------------------------------------
 
 Status can be `WITHDRAWN` (meaning that the user has withdrawn his booking, and can book *again* the presentation).
+
+Withdrawing a booked course
+---------------------------
+
+When a student withdraw a course, he cannot book the same course again, he would have to ask the course administrator to re-instate them.
