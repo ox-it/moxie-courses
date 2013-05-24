@@ -39,21 +39,21 @@ class WebLearnProvider(object):
         else:
             return None
 
-    def book(self, presentation, signer, supervisor_email=None,
-             supervisor_message=None):
+    def book(self, presentation, message, signer, supervisor_email=None):
         """Book a presentation on WL
         :param presentation: presentation object
+        :param message: message to pass to the course provider
         :param signer: oAuth signer
         :param supervisor_email: Email of the supervisor
-        :param supervisor_message: Message to the supervisor
         :return True if booking has succeeded else False
         """
         _, _, courseId = presentation.booking_endpoint.rpartition('/')
         _, _, components = presentation.id.rpartition('-')
-        payload = {'components': components, 'courseId': courseId}
-        if supervisor_email and supervisor_message:
+        payload = {'components': components,
+                   'courseId': courseId,
+                   'message': message}
+        if supervisor_email:
             payload['email'] = supervisor_email
-            payload['message'] = supervisor_message
         response = requests.post(self.booking_url, data=payload,
                                  auth=signer)
         if response.ok:
@@ -118,24 +118,27 @@ class WebLearnProvider(object):
             booking_status = c['status']
         else:
             booking_status = None
-        booking_id = c['id']
+        if 'id' in c:
+            identifier = c['id']
+        else:
+            identifier = c['presentationId']
         course = Course(
             id='daisy-course-%s' % c['components'][0]['componentSet'].split(':')[0],
-            title=c['group']['title'],
+            #title=c['group']['title'],
             title="",
             description="",  # c['group']['description']
-            provider=c['group']['department'],
-            subjects=[cat['name'] for cat in c['group']['categories']],
+            #provider=c['group']['department'],
+            #subjects=[cat['name'] for cat in c['group']['categories']],
             )
         presentations = []
         for component in c['components']:
             presentations.append(Presentation(
-                id='daisy-presentation-%s' % component['presentationId'],
+                id='daisy-presentation-%s' % identifier,
                 course=course,
                 start=self.datetime_from_ms(component['starts']),
                 end=self.datetime_from_ms(component['ends']),
                 booking_status=booking_status,
-                booking_id=booking_id,
+                booking_id=identifier,
                 location="",    # component['location']
                 ))
         course.presentations = presentations

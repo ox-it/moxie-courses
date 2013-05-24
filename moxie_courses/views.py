@@ -105,9 +105,8 @@ class PresentationBooking(ServiceView):
     def book(self, id, service, oauth):
         booking = request.json
         supervisor_email = booking.get('supervisor_email', None)
-        supervisor_message = booking.get('supervisor_message', None)
-        return service.book_presentation(id, oauth.signer,
-                                         supervisor_email, supervisor_message)
+        message = booking.get('supervisor_message', None)
+        return service.book_presentation(id, message, oauth.signer, supervisor_email)
 
 
 class Bookings(ServiceView):

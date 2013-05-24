@@ -94,13 +94,12 @@ class CourseService(ProviderService):
         else:
             return None
 
-    def book_presentation(self, id, user_signer, supervisor_email=None,
-            supervisor_message=None):
+    def book_presentation(self, id, message, user_signer, supervisor_email=None):
         """Book a presentation
         :param id: unique identifier of the presentation
+        :param message: message to book the presentation
         :param user_signer: oAuth token of the user
         :param supervisor_email: (optional) email of the supervisor
-        :param supervisor_message: (optional) message to the supervisor
         :return True if booking succeeded else False
         """
         result = searcher.get_by_ids([id])
@@ -111,8 +110,7 @@ class CourseService(ProviderService):
             logger.info("No provider found to book presentation.",
                     extra={'presentation_id': id})
             return False
-        return provider.book(presentation, user_signer, supervisor_email,
-                supervisor_message)
+        return provider.book(presentation, message, user_signer, supervisor_email)
 
     def withdraw(self, id, user_signer):
         """Withdraw the authenticated from a presentation they're enrolled on.
