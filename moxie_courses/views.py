@@ -1,11 +1,12 @@
 import logging
 
-from flask import request, abort
+from flask import request
 
 from moxie.core.views import ServiceView, accepts
 from moxie.oauth.services import OAuth1Service
 from moxie.core.cache import cache
 from moxie.core.representations import JSON, HAL_JSON
+from moxie.core.exceptions import ApplicationException, NotFound
 from .representations import (HALSubjectsRepresentation,
                               HALCoursesRepresentation,
                               HALCourseRepresentation)
@@ -60,7 +61,7 @@ class CourseDetails(ServiceView):
         if course:
             return course
         else:
-            abort(404)
+            raise NotFound()
 
     @accepts(HAL_JSON, JSON)
     def as_hal_json(self, response):
@@ -97,9 +98,10 @@ class PresentationBooking(ServiceView):
                 return {'success': True}
             else:
                 # TODO better response in case of failure (not possible atm)
-                return abort(409)
+                raise ApplicationException(message="Error in response from the provider",
+                                           status_code=409, payload={'success': False})
         else:
-            abort(401)
+            raise ApplicationException(message="Not authorised", status_code=401)
 
     def withdraw(self, id, service, oauth):
         return service.withdraw(id, oauth.signer)
