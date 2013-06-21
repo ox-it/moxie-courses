@@ -4,6 +4,7 @@ from flask import request, abort
 
 from moxie.core.views import ServiceView, accepts
 from moxie.oauth.services import OAuth1Service
+from moxie.core.cache import cache
 from moxie.core.representations import JSON, HAL_JSON
 from .representations import (HALSubjectsRepresentation,
                               HALCoursesRepresentation,
@@ -18,6 +19,7 @@ class ListAllSubjects(ServiceView):
     """
     methods = ['GET', 'OPTIONS']
 
+    @cache.cached(timeout=600)
     def handle_request(self):
         courses = CourseService.from_context()
         return courses.list_courses_subjects()
