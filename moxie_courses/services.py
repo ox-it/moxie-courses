@@ -2,7 +2,7 @@ import logging
 
 from itertools import chain
 
-from moxie.core.service import ProviderService
+from moxie.core.service import ProviderService, ProviderException
 from moxie.core.search import searcher, SearchServerException
 from moxie.core.exceptions import ApplicationException
 
@@ -75,7 +75,7 @@ class CourseService(ProviderService):
         :return list of presentations
         """
         q = {'fq': 'course_identifier:{id}'.format(id=course_identifier),
-               'sort': 'presentation_start asc'}
+                'sort': 'presentation_start asc'}
         if all:
             q['q'] = '*:*'
         else:
@@ -85,8 +85,12 @@ class CourseService(ProviderService):
             course = presentations_to_course_object(results.results)
             reference = course.presentations[0]
             # "augmenting" our results with "live" information from providers
-            provider = self.get_provider(reference)
-            if provider:
+            try:
+                provider = self.get_provider(reference)
+            except ProviderException:
+                logger.debug('No single provider found for: %s'
+                        % reference.id)
+            else:
                 provider_information = provider.get_course(reference)
                 if provider_information:
                     pass
@@ -94,7 +98,8 @@ class CourseService(ProviderService):
         else:
             return None
 
-    def book_presentation(self, id, message, user_signer, supervisor_email=None):
+    def book_presentation(self, id, message, user_signer,
+            supervisor_email=None):
         """Book a presentation
         :param id: unique identifier of the presentation
         :param message: message to book the presentation
@@ -105,12 +110,15 @@ class CourseService(ProviderService):
         result = searcher.get_by_ids([id])
         course = presentation_to_presentation_object(result.results[0])
         presentation = course.presentations[0]
-        provider = self.get_provider(presentation)
-        if not provider:
+        try:
+            provider = self.get_provider(presentation)
+        except ProviderException:
             logger.info("No provider found to book presentation.",
                     extra={'presentation_id': id})
             return False
-        return provider.book(presentation, message, user_signer, supervisor_email)
+        else:
+            return provider.book(presentation, message, user_signer,
+                    supervisor_email)
 
     def withdraw(self, id, user_signer):
         """Withdraw the authenticated from a presentation they're enrolled on.
@@ -134,9 +142,11 @@ class CourseService(ProviderService):
             logger.warn("Attempt to withdraw from a course the user may not be registered on",
                     extra={'presentation_id': id})
             return False
-        provider = self.get_provider(presentation)
-        if not provider:
+        try:
+            provider = self.get_provider(presentation)
+        except ProviderException:
             logger.info("No provider found to withdraw presentation.",
                     extra={'presentation_id': id})
             return False
-        return provider.withdraw(upres.booking_id, user_signer)
+        else:
+            return provider.withdraw(upres.booking_id, user_signer)

@@ -1,7 +1,12 @@
+import logging
+
 from flask import url_for, jsonify
 
+from moxie.core.service import ProviderException
 from moxie.core.representations import Representation, HALRepresentation, get_nav_links
 from moxie_courses.services import CourseService
+
+logger = logging.getLogger(__name__)
 
 
 class CourseRepresentation(Representation):
@@ -62,8 +67,12 @@ class HALPresentationRepresentation(PresentationRepresentation):
         base = super(HALPresentationRepresentation, self).as_dict()
         representation = HALRepresentation(base)
         courses_service = CourseService.from_context()
-        booking_provider = courses_service.get_provider(self.presentation)
-        if booking_provider:
+        try:
+            courses_service.get_provider(self.presentation)
+        except ProviderException:
+            logger.debug('No single provider found for: %s'
+                    % self.presentation.id)
+        else:
             representation.add_link('book', url_for('.presentation_booking',
                 id=self.presentation.id))
         if self.presentation.location:
