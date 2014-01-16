@@ -1,6 +1,6 @@
 import logging
 from collections import defaultdict
-
+from dateutil import parser
 from xml import sax
 
 from moxie.core.search import SearchServerException
@@ -240,12 +240,7 @@ class XcriOxImporter(object):
         :param date: date to format
         :return date formatted as 2008-01-01T00:00:00Z
         """
-        elements = date.split('-')
-        return "{year}-{month}-{day}T00:00:00Z".format(
-            year=elements[0],
-            month=elements[1],
-            day=elements[2]
-        )
+        return parser.parse(date).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     @classmethod
     def _get_identifier(cls, identifiers, uri_base="https://course.data.ox.ac.uk/id/"):
