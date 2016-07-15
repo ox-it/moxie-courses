@@ -16,5 +16,5 @@ def import_xcri_ox(force_update=False):
     url = app.config['XCRI_IMPORT_URL']
     with app.blueprint_context(BLUEPRINT_NAME):
         xcri = get_resource(url, force_update)
-        xcri_importer = XcriOxImporter(searcher, xcri)
+        xcri_importer = XcriOxImporter(searcher, xcri, timeout=600)
         xcri_importer.run()
